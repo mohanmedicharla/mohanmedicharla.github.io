@@ -1,82 +1,163 @@
-# [Start Bootstrap - Clean Blog](https://startbootstrap.com/theme/clean-blog/)
+# Financial Wealth Planning Tool
 
-[Clean Blog](https://startbootstrap.com/theme/clean-blog/) is a stylish, responsive blog theme for [Bootstrap](https://getbootstrap.com/) created by [Start Bootstrap](https://startbootstrap.com/). This theme features a blog homepage, about page, contact page, and an example post page along with a working PHP contact form.
+A personalized financial planning calculator that analyzes your income, expenses, debts, and goals to suggest wealth-creation strategies.
 
-## Preview
+**Live at:** https://mohanmedicharla.github.io
 
-[![Clean Blog Preview](https://assets.startbootstrap.com/img/screenshots/themes/clean-blog.png)](https://startbootstrap.github.io/startbootstrap-clean-blog/)
+---
 
-**[View Live Preview](https://startbootstrap.github.io/startbootstrap-clean-blog/)**
+## 📋 What This Tool Does
 
-## Status
+1. **Analyzes your financial situation** – Income, expenses, debts, insurance, emergency fund
+2. **Recommends prioritized strategies** – Insurance → EF → Debt Payoff → SIP → Goals
+3. **Calculates timelines** – How long to reach each milestone
+4. **Suggests investments** – Based on your investment tenure
+5. **Evolves with you** – Add new details as you go
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/StartBootstrap/startbootstrap-clean-blog/master/LICENSE)
-[![npm version](https://img.shields.io/npm/v/startbootstrap-clean-blog.svg)](https://www.npmjs.com/package/startbootstrap-clean-blog)
+---
 
-## Download and Installation
+## 🎯 Financial Logic (What It Recommends)
 
-To begin using this template, choose one of the following options to get started:
+### Priority Sequence:
+1. **Health & Term Insurance** (if missing) – Get these first
+2. **Emergency Fund** – 6, 9, or 12 months of obligations
+3. **Debt Payoff** – Highest interest first (special rules for short tenure/low interest loans)
+4. **SIP & Investments** – Based on your investment tenure
+5. **Long-term Goals** – Land, house, etc.
 
-* [Download the latest release on Start Bootstrap](https://startbootstrap.com/theme/clean-blog/)
-* Install via npm: `npm i startbootstrap-clean-blog`
-* Clone the repo: `git clone https://github.com/StartBootstrap/startbootstrap-clean-blog.git`
-* [Fork, Clone, or Download on GitHub](https://github.com/StartBootstrap/startbootstrap-clean-blog)
+### Debt Payoff Rules:
+- **Tenure > 1 year:** Clear highest interest debt first
+- **Tenure ≤ 1 year:** Clear next highest interest debt instead
+- **Interest < 9%:** Low interest alert – suggest maintaining EF & investing instead
 
-## Usage
+### Investment Suggestions:
+- **Tenure ≥ 8 years:** Equity Mutual Funds recommended
+- **Tenure < 8 years:** (Details being added)
 
-### Basic Usage
+---
 
-After downloading, simply edit the HTML and CSS files included with `dist` directory. These are the only files you need to worry about, you can ignore everything else! To preview the changes you make to the code, you can open the `index.html` file in your web browser.
+## 🚀 How to Deploy to GitHub Pages
 
-### Advanced Usage
+### Step 1: Log into GitHub
+Go to: https://github.com/mohanmedicharla/mohanmedicharla.github.io
 
-Clone the source files of the theme and navigate into the theme's root directory. Run `npm install` and then run `npm start` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `package.json` file to see which scripts are included.
+### Step 2: Upload the File
+1. Click **"Add file"** button (top right)
+2. Click **"Upload files"**
+3. Drag & drop `financial-calculator.html` OR click "choose your files"
+4. Click **"Commit changes"**
 
-### Contact Form
+### Step 3: Wait & Visit
+- GitHub automatically publishes within 1 minute
+- Visit: https://mohanmedicharla.github.io/financial-calculator.html
 
-The contact form available with this theme is prebuilt to use [SB Forms](https://startbootstrap.com/solution/contact-forms).
-SB Forms is a simple form solution for adding functional forms to your theme. Since this theme is prebuilt using our
-SB Forms markup, all you need to do is sign up for [SB Forms on Start Bootstrap](https://startbootstrap.com/solution/contact-forms).
+---
 
-After signing up you will need to set the domain name your form will be used on, and you will then see your
-access key. Copy this and paste it into the `data-sb-form-api-token='API_TOKEN'` data attribute in place of
-`API_TOKEN`. That's it! Your forms will be up and running!
+## 📝 How to Use the Tool
 
-If you aren't using SB Forms, simply delete the custom data attributes from the form, and remove the link above the
-closing `</body>` tag to SB Forms.
+### Input Section:
+1. **Monthly Income** – Salary + any regular income
+2. **Monthly Obligations** – Rent, EMIs, utilities, groceries, insurance premiums (everything fixed/essential)
+3. **Insurance Status** – Do you have Health & Term Insurance?
+4. **Emergency Fund** – Current balance + Target level (6/9/12 months)
+5. **Debts** – List all loans with amount, interest rate, tenure
+6. **Current Investments** – SIP, invested amount, Gold Loan details
+7. **Investment Tenure** – How many years can you stay invested?
+8. **Goals** (Optional) – Land purchase, house, etc.
 
-#### npm Scripts
+### Output:
+- Insurance recommendations (if missing)
+- Emergency fund progress & timeline
+- Debt payoff priority list
+- Investment strategy
+- Monthly surplus capacity
+- Prioritized action plan
 
-* `npm run build` builds the project - this builds assets, HTML, JS, and CSS into `dist`
-* `npm run build:assets` copies the files in the `src/assets/` directory into `dist`
-* `npm run build:pug` compiles the Pug located in the `src/pug/` directory into `dist`
-* `npm run build:scripts` brings the `src/js/scripts.js` file into `dist`
-* `npm run build:scss` compiles the SCSS files located in the `src/scss/` directory into `dist`
-* `npm run clean` deletes the `dist` directory to prepare for rebuilding the project
-* `npm run start:debug` runs the project in debug mode
-* `npm start` or `npm run start` runs the project, launches a live preview in your default browser, and watches for changes made to files in `src`
+---
 
-You must have npm installed in order to use this build environment.
+## 🔧 How to Modify/Update This Tool
 
-## Bugs and Issues
+### Edit the HTML File:
+1. Go to GitHub repo
+2. Click on `financial-calculator.html`
+3. Click ✏️ (Edit) icon
+4. Make changes
+5. Click "Commit changes"
+6. Wait 1 minute, refresh your browser
 
-Have a bug or an issue with this template? [Open a new issue](https://github.com/StartBootstrap/startbootstrap-clean-blog/issues) here on GitHub or leave a comment on the [template overview page at Start Bootstrap](https://startbootstrap.com/theme/clean-blog/).
+### Examples of Easy Changes:
 
-## About
+**To change EF target options:**
+Find this section (around line 280):
+```
+<option value="6">Minimum (6 months obligations)</option>
+<option value="9">Ideal (9 months obligations)</option>
+<option value="12">Safest (12 months obligations)</option>
+```
 
-Start Bootstrap is an open source library of free Bootstrap templates and themes. All of the free templates and themes on Start Bootstrap are released under the MIT license, which means you can use them for any purpose, even for commercial projects.
+**To change debt priority logic:**
+Find the `analyzeDebts()` function (around line 450) and modify the sorting logic.
 
-* <https://startbootstrap.com>
-* <https://twitter.com/SBootstrap>
+**To add new investment suggestions:**
+Find `generateRecommendations()` function and add recommendations for different tenures.
 
-Start Bootstrap was created by and is maintained by **[David Miller](https://davidmiller.io/)**, Owner of [Blackrock Digital](https://startbootstrap.io/).
+---
 
-* <https://davidmiller.io>
-* <https://twitter.com/davidmillerhere>
-* <https://github.com/davidtmiller>
+## 📚 File Structure
 
-Start Bootstrap is based on the [Bootstrap](https://getbootstrap.com/) framework created by [Mark Otto](https://twitter.com/mdo) and [Jacob Thorton](https://twitter.com/fat).
+```
+mohanmedicharla.github.io/
+├── financial-calculator.html    (Main file - entire app)
+├── README.md                     (This file)
+└── FINANCIAL_LOGIC.md           (Detailed rules documentation)
+```
 
-## Copyright and License
+---
 
-Copyright 2013-2023 Start Bootstrap LLC. Code released under the [MIT](https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE) license.
+## 🎓 Understanding the Code Structure
+
+### HTML Section (Lines 1-250)
+- Form inputs for user data
+- Sections for Income, Insurance, EF, Debts, Investments, Goals
+
+### CSS Section (Lines 250-400)
+- Styling for mobile-friendly responsive design
+- Color scheme: Purple (#667eea)
+
+### JavaScript Section (Lines 400-700+)
+- `addDebt()` – Add debt fields dynamically
+- `addGoal()` – Add goal fields dynamically
+- `generatePlan()` – Collect form data
+- `analyzeDebts()` – Debt payoff logic
+- `checkInsurance()` – Insurance recommendations
+- `generateRecommendations()` – Create output recommendations
+
+---
+
+## 🐛 Future Enhancements (Planned)
+
+- [ ] Investment tenure brackets (3-5 yrs, 5-7 yrs, 8+ yrs) with specific suggestions
+- [ ] More detailed debt payoff timeline calculations
+- [ ] SIP step-up planning (₹25K → ₹40K → ₹60K schedule)
+- [ ] Tax planning recommendations
+- [ ] Monthly savings projection chart
+- [ ] Scenario planning ("What if my salary increases?")
+- [ ] Export plan as PDF/Excel
+- [ ] Multi-language support
+
+---
+
+## 📞 Questions?
+
+This is an MVP. As you use it, send feedback on:
+- What calculations are wrong?
+- What recommendations are missing?
+- What features you want to add?
+
+Everything is documented and ready to modify. Start simple, evolve together. 🚀
+
+---
+
+**Version:** 1.0 (MVP)  
+**Last Updated:** 2026  
+**Author:** Mohan Medicharla
