@@ -20,8 +20,11 @@ A personalized financial planning calculator that analyzes your income, expenses
 
 ### Priority Sequence:
 1. **Health & Term Insurance** (if missing) – Get these first
+   - Smart recommendations based on family size, income, and dependents
+   - Suggests coverage amounts based on your situation
 2. **Emergency Fund** – 6, 9, or 12 months of obligations
 3. **Debt Payoff** – Highest interest first (special rules for short tenure/low interest loans)
+   - Gold Loans treated as regular debts (prioritized by interest rate)
 4. **SIP & Investments** – Based on your investment tenure
 5. **Long-term Goals** – Land, house, etc.
 
@@ -56,19 +59,33 @@ Go to: https://github.com/mohanmedicharla/mohanmedicharla.github.io
 ## 📝 How to Use the Tool
 
 ### Input Section:
-1. **Monthly Income** – Salary + any regular income
-2. **Monthly Obligations** – Rent, EMIs, utilities, groceries, insurance premiums (everything fixed/essential)
-3. **Insurance Status** – Do you have Health & Term Insurance?
-4. **Emergency Fund** – Current balance + Target level (6/9/12 months)
-5. **Debts** – List all loans with amount, interest rate, tenure
-6. **Current Investments** – SIP, invested amount, Gold Loan details
-7. **Investment Tenure** – How many years can you stay invested?
-8. **Goals** (Optional) – Land purchase, house, etc.
+1. **Personal Details** 
+   - Monthly Income
+   - Monthly Obligations (rent, EMIs, utilities, groceries, insurance)
+   - Your Age
+   - Family Size
+   - Number of Dependents
+   - Employment Status
+2. **Insurance Coverage**
+   - Health Insurance (Yes/No + Coverage Amount + Family Floater/Individual)
+   - Term Insurance (Yes/No + Sum Assured Amount)
+3. **Emergency Fund** 
+   - Current balance
+   - Target level (6/9/12 months)
+4. **Debts**
+   - All loans including Gold Loan, Personal, Home, Auto, etc.
+   - Amount, interest rate, tenure for each
+5. **Current Investments**
+   - SIP amount, invested amount in ETFs/MFs
+6. **Investment Tenure**
+   - How many years can you stay invested?
+7. **Goals** (Optional)
+   - Land purchase, house, etc.
 
 ### Output:
-- Insurance recommendations (if missing)
+- Personalized insurance recommendations (based on family size, income, dependents)
 - Emergency fund progress & timeline
-- Debt payoff priority list
+- Debt payoff priority list (including Gold Loan)
 - Investment strategy
 - Monthly surplus capacity
 - Prioritized action plan

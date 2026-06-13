@@ -19,28 +19,93 @@ This document explains every financial rule, calculation, and recommendation log
 
 ### Current Logic:
 
+The tool analyzes your insurance coverage based on **family size, age, dependents, and income**.
+
+#### Health Insurance:
 ```
-IF Health Insurance = No:
-    ADD "Health Insurance" to missing list
+INPUT: Health Insurance status, Coverage amount, Family Floater/Individual
 
-IF Term Insurance = No:
-    ADD "Term Insurance" to missing list
+IF No Health Insurance:
+    STATUS: URGENT (Red Flag)
+    RECOMMENDATION: Get Health Insurance immediately
+    SUGGESTED_AMOUNT: 
+        Family Size 1-2: ₹10-15L
+        Family Size 3: ₹15-20L
+        Family Size 4+: ₹20-25L
+    TYPE: Family Floater recommended for better value
 
-IF missing list is NOT empty:
-    URGENT RECOMMENDATION: Get Health & Term Insurance
-    (Besides employer-provided ones if you're an employee)
-ELSE:
-    POSITIVE CONFIRMATION: You have both insurances
+ELSE IF Health Insurance exists:
+    Calculate: Suggested Coverage = Family Size × Base Amount
+    
+    IF Current Coverage < Suggested:
+        STATUS: WARNING (Yellow Flag)
+        RECOMMENDATION: Increase coverage
+        MESSAGE: "Current: ₹X | Suggested: ₹Y for family size Z"
+    
+    ELSE:
+        STATUS: GOOD (Green)
+        MESSAGE: "Coverage is adequate"
 ```
 
-### Output:
-- **If Missing:** Red flag (urgent) – "Get insurance immediately before other financial goals"
-- **If Present:** Green confirmation – "Insurance coverage is in place"
+#### Term Insurance:
+```
+INPUT: Term Insurance status, Sum Assured, Number of dependents
 
-### Future Enhancement:
-- [ ] Suggest sum insured amounts (health: 10-15L, term: 10x annual income)
-- [ ] Calculate monthly premium estimates
-- [ ] Recommend specific products
+IF No Term Insurance:
+    STATUS: URGENT (Red Flag)
+    RECOMMENDATION: Get Term Insurance immediately
+    SUGGESTED_AMOUNT: Income × 120 (10 years of annual income)
+    EXAMPLE: ₹1L monthly income → ₹1.2 Crore cover suggested
+
+ELSE IF Term Insurance exists:
+    Calculate: Recommended = Monthly Income × 120
+    
+    IF Current Coverage < Recommended:
+        STATUS: WARNING (Yellow Flag)
+        RECOMMENDATION: Increase coverage
+        MESSAGE: "Current: ₹X | Suggested: ₹Y for {dependents} dependent(s)"
+    
+    ELSE:
+        STATUS: GOOD (Green)
+        MESSAGE: "Coverage is adequate for {dependents} dependent(s)"
+```
+
+### Suggestion Algorithm:
+
+```
+Health Insurance Suggestion:
+- Family Floater is preferred (covers entire family)
+- Coverage: 10-15L per family member minimum
+- Young & healthy: 10L adequate
+- Family with seniors/kids: 15-20L recommended
+
+Term Insurance Suggestion:
+- Rule: 10x annual income (120 months of salary)
+- More dependents = higher cover needed
+- Pure protection (term) is cheapest option
+- Review every 3-5 years
+```
+
+### Output Examples:
+
+**Example 1 - Missing Both:**
+```
+🚨 Health Insurance Missing
+Get Health Insurance immediately. Recommended ₹15L for family size 3.
+
+🚨 Term Insurance Missing
+Get Term Insurance immediately. Recommended ₹1.2 Crore (10x annual income).
+```
+
+**Example 2 - Have Both but Low Coverage:**
+```
+⚠️ Health Insurance Coverage Low
+Current: ₹5L | Suggested: ₹15L for family size 3
+Increase coverage to ₹15L Family Floater policy.
+
+✅ Term Insurance Adequate
+Coverage: ₹1.5 Crore is good for 2 dependents.
+```
 
 ---
 
@@ -109,10 +174,12 @@ ELSE:
 ## 💳 Debt Analysis & Payoff Logic
 
 ### Input Requirements:
-- Debt Name (e.g., "Personal Loan")
+- Debt Name (e.g., "Personal Loan", "Gold Loan")
 - Outstanding Amount (₹)
 - Interest Rate (%) p.a.
 - Tenure Remaining (months)
+
+**Note:** Gold Loan is entered here like any other debt, with its interest rate and tenure.
 
 ### Debt Priority Algorithm:
 
@@ -154,7 +221,7 @@ Analysis:
 
 Output Priority List:
 1. Personal Loan (12%, 36 mo)
-2. Gold Loan (10%, 24 mo)
+2. Gold Loan (10%, 24 mo) - Regular debt, same priority logic
 3. Home Loan (8%, 180 mo) - Low interest, maintain EF + invest
 ```
 

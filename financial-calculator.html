@@ -279,9 +279,9 @@
         <p class="subtitle">Get personalized wealth creation strategies based on your financial situation</p>
 
         <form id="plannerForm">
-            <!-- SECTION 1: INCOME & EXPENSES -->
+            <!-- SECTION 1: PERSONAL DETAILS -->
             <div class="section">
-                <h2>📊 Income & Monthly Obligations</h2>
+                <h2>👤 Personal Details</h2>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="monthlyIncome">Monthly Income (₹)*</label>
@@ -293,27 +293,89 @@
                         <small style="color: #666;">Rent, EMI, utilities, groceries, insurance premiums, etc.</small>
                     </div>
                 </div>
-            </div>
-
-            <!-- SECTION 2: INSURANCE CHECK -->
-            <div class="section">
-                <h2>🛡️ Insurance Status</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="healthInsurance">Do you have Health Insurance? (besides employer)*</label>
-                        <select id="healthInsurance" required>
+                        <label for="age">Your Age (years)*</label>
+                        <input type="number" id="age" placeholder="e.g., 35" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="familySize">Family Size (including you)*</label>
+                        <select id="familySize" required>
                             <option value="">-- Select --</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
+                            <option value="1">1 (Only me)</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5 or more</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dependents">Number of Dependents*</label>
+                        <select id="dependents" required>
+                            <option value="">-- Select --</option>
+                            <option value="0">0 (None)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3 or more</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="termInsurance">Do you have Term Insurance? (besides employer)*</label>
+                        <label for="employmentStatus">Employment Status*</label>
+                        <select id="employmentStatus" required>
+                            <option value="">-- Select --</option>
+                            <option value="salaried">Salaried Employee</option>
+                            <option value="self-employed">Self-Employed</option>
+                            <option value="freelance">Freelancer</option>
+                            <option value="retired">Retired</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: INSURANCE STATUS -->
+            <div class="section">
+                <h2>🛡️ Insurance Coverage</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="healthInsurance">Do you have Health Insurance?*</label>
+                        <select id="healthInsurance" required>
+                            <option value="">-- Select --</option>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="healthCoverage">Health Insurance Coverage (₹)</label>
+                        <input type="number" id="healthCoverage" placeholder="e.g., 500000">
+                        <small style="color: #666;">Leave blank if no insurance</small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="healthFloater">Is it Family Floater or Individual?</label>
+                        <select id="healthFloater">
+                            <option value="">-- Select --</option>
+                            <option value="individual">Individual</option>
+                            <option value="family-floater">Family Floater</option>
+                        </select>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="termInsurance">Do you have Term Insurance?*</label>
                         <select id="termInsurance" required>
                             <option value="">-- Select --</option>
-                            <option value="yes">Yes</option>
                             <option value="no">No</option>
+                            <option value="yes">Yes</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="termCoverage">Term Insurance Sum Assured (₹)</label>
+                        <input type="number" id="termCoverage" placeholder="e.g., 5000000">
+                        <small style="color: #666;">Leave blank if no insurance</small>
                     </div>
                 </div>
             </div>
@@ -341,7 +403,7 @@
             <!-- SECTION 4: EXISTING DEBTS -->
             <div class="section">
                 <h2>💳 Existing Debts</h2>
-                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">List all loans (Personal, Home, Auto, Gold, etc.)</p>
+                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">List all loans (Personal, Home, Auto, Gold Loan, etc.)</p>
                 <div id="debtsContainer">
                     <!-- Debts will be added here -->
                 </div>
@@ -359,16 +421,6 @@
                     <div class="form-group">
                         <label for="investedAmount">Total Amount Invested (ETFs/MFs/etc) (₹)</label>
                         <input type="number" id="investedAmount" placeholder="e.g., 500000" value="0">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="goldLoanOutstanding">Gold Loan Outstanding (₹)</label>
-                        <input type="number" id="goldLoanOutstanding" placeholder="e.g., 1000000" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="goldLoanRate">Gold Loan Interest Rate (%) p.a.</label>
-                        <input type="number" id="goldLoanRate" placeholder="e.g., 10" step="0.1" value="0">
                     </div>
                 </div>
             </div>
@@ -486,16 +538,25 @@
 
         function generatePlan() {
             // Collect form data
+            const age = parseInt(document.getElementById('age').value);
+            const familySize = parseInt(document.getElementById('familySize').value);
+            const dependents = parseInt(document.getElementById('dependents').value);
+            const employmentStatus = document.getElementById('employmentStatus').value;
+            
             const monthlyIncome = parseFloat(document.getElementById('monthlyIncome').value);
             const monthlyObligations = parseFloat(document.getElementById('monthlyObligations').value);
+            
             const healthInsurance = document.getElementById('healthInsurance').value;
+            const healthCoverage = parseFloat(document.getElementById('healthCoverage').value) || 0;
+            const healthFloater = document.getElementById('healthFloater').value;
+            
             const termInsurance = document.getElementById('termInsurance').value;
+            const termCoverage = parseFloat(document.getElementById('termCoverage').value) || 0;
+            
             const currentEF = parseFloat(document.getElementById('currentEF').value);
             const efTarget = parseInt(document.getElementById('efTarget').value);
             const currentSIP = parseFloat(document.getElementById('currentSIP').value);
             const investedAmount = parseFloat(document.getElementById('investedAmount').value);
-            const goldLoanOutstanding = parseFloat(document.getElementById('goldLoanOutstanding').value);
-            const goldLoanRate = parseFloat(document.getElementById('goldLoanRate').value);
             const investmentTenure = parseInt(document.getElementById('investmentTenure').value);
 
             // Calculate EF target amount
@@ -518,8 +579,12 @@
             // Analyze debts and create payoff strategy
             const debtAnalysis = analyzeDebts(debts);
 
-            // Check insurance
-            const insuranceRecommendation = checkInsurance(healthInsurance, termInsurance);
+            // Check insurance and get suggestions
+            const insuranceRecommendation = checkInsurance(
+                healthInsurance, healthCoverage, healthFloater,
+                termInsurance, termCoverage,
+                age, familySize, dependents, monthlyIncome, monthlyObligations
+            );
 
             // Calculate surplus
             const monthlySurplus = monthlyIncome - monthlyObligations;
@@ -537,6 +602,7 @@
 
             // Generate recommendations
             generateRecommendations(
+                age, familySize, dependents, employmentStatus,
                 monthlyIncome,
                 monthlyObligations,
                 currentEF,
@@ -548,8 +614,6 @@
                 insuranceRecommendation,
                 investmentTenure,
                 investedAmount,
-                goldLoanOutstanding,
-                goldLoanRate,
                 goals
             );
         }
@@ -579,48 +643,113 @@
             };
         }
 
-        function checkInsurance(health, term) {
-            const missing = [];
-            if (health === 'no') missing.push('Health Insurance');
-            if (term === 'no') missing.push('Term Insurance');
-
-            if (missing.length > 0) {
-                return {
-                    hasMissing: true,
-                    missing: missing,
-                    message: `⚠️ Get ${missing.join(' & ')} immediately (beyond employer-provided ones if you're an employee)`
-                };
+        function checkInsurance(healthIns, healthCov, healthFloat, termIns, termCov, age, familySize, dependents, income, obligations) {
+            const recommendations = [];
+            
+            // Health Insurance recommendations
+            if (healthIns === 'no') {
+                recommendations.push({
+                    type: 'urgent',
+                    title: 'Health Insurance Missing',
+                    message: `Get Health Insurance immediately (besides employer-provided if you're an employee).`,
+                    suggestion: `For family size ${familySize}: Recommend ₹10-15L coverage (Family Floater)`
+                });
+            } else if (healthIns === 'yes' && healthCov > 0) {
+                let healthStatus = 'adequate';
+                let healthSuggestion = '';
+                
+                // Calculate suggested coverage based on family and income
+                const suggestedHealthCov = familySize <= 2 ? 1000000 : (familySize === 3 ? 1500000 : 2000000);
+                
+                if (healthCov < suggestedHealthCov) {
+                    healthStatus = 'low';
+                    healthSuggestion = ` Current: ₹${healthCov.toLocaleString('en-IN')} | Suggested: ₹${suggestedHealthCov.toLocaleString('en-IN')} for family size ${familySize}`;
+                }
+                
+                const floaterType = healthFloat === 'family-floater' ? '(Family Floater)' : '(Individual)';
+                recommendations.push({
+                    type: healthStatus === 'low' ? 'warning' : 'good',
+                    title: `Health Insurance ${floaterType}`,
+                    coverage: healthCov,
+                    message: healthStatus === 'low' ? 
+                        `Coverage may be insufficient for family size ${familySize}.${healthSuggestion}` :
+                        `Coverage: ₹${healthCov.toLocaleString('en-IN')} is adequate.${healthSuggestion}`
+                });
             }
-
+            
+            // Term Insurance recommendations
+            if (termIns === 'no') {
+                const recommendedTermCov = income * 120; // 10 years of income
+                recommendations.push({
+                    type: 'urgent',
+                    title: 'Term Insurance Missing',
+                    message: `Get Term Insurance immediately (besides employer-provided if you're an employee).`,
+                    suggestion: `Recommended sum assured: ₹${recommendedTermCov.toLocaleString('en-IN')} (10x annual income) for ${dependents} dependent(s).`
+                });
+            } else if (termIns === 'yes' && termCov > 0) {
+                const recommendedTermCov = income * 120; // 10 years of income
+                let termStatus = 'adequate';
+                
+                if (termCov < recommendedTermCov) {
+                    termStatus = 'low';
+                }
+                
+                recommendations.push({
+                    type: termStatus === 'low' ? 'warning' : 'good',
+                    title: 'Term Insurance',
+                    coverage: termCov,
+                    message: termStatus === 'low' ?
+                        `Coverage may be insufficient for ${dependents} dependent(s).` :
+                        `Coverage: ₹${termCov.toLocaleString('en-IN')} is adequate for ${dependents} dependent(s).`,
+                    suggestion: termStatus === 'low' ? 
+                        `Suggested: ₹${recommendedTermCov.toLocaleString('en-IN')} (10x annual income = ₹${(income * 12).toLocaleString('en-IN')})` :
+                        `Good coverage for your family size and income.`
+                });
+            }
+            
+            const hasMissing = recommendations.some(r => r.type === 'urgent');
+            
             return {
-                hasMissing: false,
-                message: "✅ You have both Health & Term Insurance"
+                hasMissing: hasMissing,
+                recommendations: recommendations
             };
         }
 
         function generateRecommendations(
+            age, familySize, dependents, employmentStatus,
             income, obligations, currentEF, efTarget, efMonths, surplus,
-            debts, debtAnalysis, insuranceRec, investTenure, invested, glOutstanding, glRate, goals
+            debts, debtAnalysis, insuranceRec, investTenure, invested, goals
         ) {
             let html = '';
 
-            // 1. INSURANCE (First Priority)
+            // 1. INSURANCE RECOMMENDATIONS (First Priority)
             if (insuranceRec.hasMissing) {
-                html += `
-                    <div class="recommendation urgent">
-                        <h3>🚨 Priority 1: Get Insurance</h3>
-                        <p>${insuranceRec.message}</p>
-                        <p style="margin-top: 10px; font-size: 13px; color: #666;">This is the foundation of your financial plan. Get Health & Term Insurance before any other financial goal.</p>
-                    </div>
-                `;
-            } else {
-                html += `
-                    <div class="recommendation">
-                        <h3>✅ Insurance Status</h3>
-                        <p>${insuranceRec.message}</p>
-                    </div>
-                `;
+                insuranceRec.recommendations.forEach((rec) => {
+                    if (rec.type === 'urgent') {
+                        html += `
+                            <div class="recommendation urgent">
+                                <h3>🚨 Priority 1: ${rec.title}</h3>
+                                <p>${rec.message}</p>
+                                <p style="margin-top: 10px; font-size: 13px; color: #666;"><strong>💡 Suggestion:</strong> ${rec.suggestion}</p>
+                            </div>
+                        `;
+                    }
+                });
             }
+            
+            // Show coverage summaries
+            html += `<div class="recommendation">`;
+            insuranceRec.recommendations.forEach((rec) => {
+                if (rec.type !== 'urgent') {
+                    const icon = rec.type === 'good' ? '✅' : '⚠️';
+                    html += `
+                        <h3>${icon} ${rec.title}</h3>
+                        <p>${rec.message}</p>
+                        ${rec.suggestion ? `<p style="margin-top: 8px; font-size: 13px; color: #666;">${rec.suggestion}</p>` : ''}
+                    `;
+                }
+            });
+            html += `</div>`;
 
             // 2. EMERGENCY FUND
             if (currentEF < efTarget) {
@@ -699,7 +828,7 @@
                 </div>
             `;
 
-            // 5. MONTHLY SURPLUS & ACTION PLAN
+            // 4. MONTHLY SURPLUS & ACTION PLAN
             html += `
                 <div class="recommendation">
                     <h3>💰 Your Monthly Financial Capacity</h3>
@@ -712,7 +841,7 @@
                 </div>
             `;
 
-            // 6. PRIORITY SEQUENCE
+            // 5. PRIORITY SEQUENCE
             html += `
                 <div class="priority-list">
                     <h3>🎯 Your Financial Priority Sequence</h3>
@@ -722,7 +851,7 @@
                     </div>
                     <div class="priority-item">
                         <div class="priority-number">2</div>
-                        <div class="priority-text">Build Emergency Fund to your target (${['6 months', '9 months', '12 months'][['6', '9', '12'].indexOf(String(efTarget))]}) </div>
+                        <div class="priority-text">Build Emergency Fund to your target</div>
                     </div>
                     <div class="priority-item">
                         <div class="priority-number">3</div>
