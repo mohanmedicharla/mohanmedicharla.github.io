@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Wealth Planning Tool</title>
+    <title>Advanced Financial Wealth Planning Tool</title>
     <style>
         * {
             margin: 0;
@@ -27,48 +27,60 @@
             padding: 40px;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
+        .page-header {
             text-align: center;
+            margin-bottom: 30px;
         }
 
-        .subtitle {
-            text-align: center;
+        .page-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
             color: #666;
-            margin-bottom: 30px;
             font-size: 14px;
         }
 
-        .section {
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
             margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+            overflow: hidden;
         }
 
-        .section h2 {
-            color: #667eea;
-            font-size: 18px;
-            margin-bottom: 15px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #333;
             font-weight: 500;
             font-size: 14px;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
@@ -91,403 +103,687 @@
             grid-template-columns: 1fr;
         }
 
-        .debt-item {
+        .form-row.three {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        small {
+            display: block;
+            color: #999;
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #0d47a1;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .row-item {
             background: white;
             padding: 15px;
             border-radius: 6px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .debt-item-remove {
+        .row-item-content {
+            flex: 1;
+        }
+
+        .row-item-delete {
             background: #ff6b6b;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
-            margin-top: 10px;
         }
 
-        .debt-item-remove:hover {
+        .row-item-delete:hover {
             background: #ff5252;
         }
 
-        button {
-            background: #667eea;
+        .add-btn {
+            background: #4caf50;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.3s;
+            font-size: 13px;
+            margin-top: 10px;
         }
 
-        button:hover {
-            background: #5568d3;
+        .add-btn:hover {
+            background: #45a049;
         }
 
-        .btn-secondary {
-            background: #6c757d;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .btn-calculate {
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            margin-top: 20px;
-        }
-
-        .results {
+        /* Results Page Styles */
+        .results-container {
             display: none;
-            margin-top: 40px;
-            padding: 30px;
-            background: #f0f4ff;
-            border-radius: 8px;
-            border: 2px solid #667eea;
         }
 
-        .results.show {
+        .results-container.active {
             display: block;
         }
 
-        .results h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-        }
-
-        .recommendation {
-            background: white;
+        .result-card {
+            background: #f8f9fa;
             padding: 20px;
-            margin-bottom: 15px;
             border-radius: 8px;
-            border-left: 4px solid #28a745;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
         }
 
-        .recommendation.warning {
-            border-left-color: #ffc107;
-            background: #fffbf0;
-        }
-
-        .recommendation.urgent {
-            border-left-color: #dc3545;
-            background: #fff5f5;
-        }
-
-        .recommendation h3 {
-            color: #333;
-            margin-bottom: 10px;
+        .result-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
             font-size: 16px;
         }
 
-        .recommendation p {
-            color: #555;
-            line-height: 1.6;
-            font-size: 14px;
+        .result-metric {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
         }
 
-        .recommendation .value {
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .priority-list {
+        .metric-box {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .priority-list h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .priority-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            padding: 10px;
-            background: #f8f9fa;
+            padding: 15px;
             border-radius: 6px;
+            text-align: center;
         }
 
-        .priority-number {
-            background: #667eea;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
+        .metric-label {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            color: #667eea;
+            font-size: 24px;
             font-weight: bold;
         }
 
-        .priority-text {
-            flex: 1;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .error {
-            color: #dc3545;
+        .metric-subtext {
+            color: #999;
             font-size: 12px;
             margin-top: 5px;
         }
 
-        .add-more-btn {
-            background: #28a745;
-            margin-top: 10px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
         }
 
-        .add-more-btn:hover {
-            background: #218838;
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            text-align: left;
         }
 
-        .input-group {
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .bar {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
-        .input-group input {
+        .bar-label {
+            width: 120px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .bar-fill {
             flex: 1;
+            height: 25px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .bar-value {
+            width: 80px;
+            text-align: right;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
             .form-row {
                 grid-template-columns: 1fr;
             }
 
-            .container {
-                padding: 20px;
+            .form-row.three {
+                grid-template-columns: 1fr;
             }
+
+            .result-metric {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .page-number {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💰 Financial Wealth Planning Tool</h1>
-        <p class="subtitle">Get personalized wealth creation strategies based on your financial situation</p>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>💰 Advanced Financial Planning Tool</h1>
+            <p>Multi-step wealth creation strategy tailored to your situation</p>
+        </div>
 
-        <form id="plannerForm">
-            <!-- SECTION 1: PERSONAL DETAILS -->
-            <div class="section">
-                <h2>👤 Personal Details</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="monthlyIncome">Monthly Income (₹)*</label>
-                        <input type="number" id="monthlyIncome" placeholder="e.g., 100000" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="monthlyObligations">Monthly Fixed Obligations (₹)*</label>
-                        <input type="number" id="monthlyObligations" placeholder="e.g., 50000" required>
-                        <small style="color: #666;">Rent, EMI, utilities, groceries, insurance premiums, etc.</small>
-                    </div>
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- PAGE 1: Personal Details -->
+        <div class="page active" id="page1">
+            <h2>Personal Details</h2>
+            <div class="form-group">
+                <label for="age">Age (years) *</label>
+                <input type="number" id="age" placeholder="e.g., 35" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="familySize">Family Size *</label>
+                    <select id="familySize" required>
+                        <option value="">-- Select --</option>
+                        <option value="1">1 (Only me)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5+</option>
+                    </select>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="age">Your Age (years)*</label>
-                        <input type="number" id="age" placeholder="e.g., 35" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="familySize">Family Size (including you)*</label>
-                        <select id="familySize" required>
-                            <option value="">-- Select --</option>
-                            <option value="1">1 (Only me)</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5 or more</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="dependents">Number of Dependents *</label>
+                    <select id="dependents" required>
+                        <option value="">-- Select --</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3+</option>
+                    </select>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="dependents">Number of Dependents*</label>
-                        <select id="dependents" required>
-                            <option value="">-- Select --</option>
-                            <option value="0">0 (None)</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3 or more</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="employmentStatus">Employment Status*</label>
-                        <select id="employmentStatus" required>
-                            <option value="">-- Select --</option>
-                            <option value="salaried">Salaried Employee</option>
-                            <option value="self-employed">Self-Employed</option>
-                            <option value="freelance">Freelancer</option>
-                            <option value="retired">Retired</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="employmentStatus">Employment Status *</label>
+                <select id="employmentStatus" required>
+                    <option value="">-- Select --</option>
+                    <option value="salaried">Salaried Employee</option>
+                    <option value="self-employed">Self-Employed</option>
+                    <option value="freelance">Freelancer</option>
+                    <option value="retired">Retired</option>
+                </select>
+            </div>
+            <div class="page-number">Page 1 of 9</div>
+        </div>
+
+        <!-- PAGE 2: Multiple Income Sources -->
+        <div class="page" id="page2">
+            <h2>Income Sources</h2>
+            <div class="info-box">ℹ️ Include all regular monthly income sources</div>
+            
+            <div class="form-group">
+                <label for="baseSalary">Base Monthly Salary (₹) *</label>
+                <input type="number" id="baseSalary" placeholder="e.g., 75000" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="avgBonus">Average Monthly Bonus/Variable Income (₹)</label>
+                <input type="number" id="avgBonus" placeholder="e.g., 10000" value="0">
+                <small>Annual bonus ÷ 12, or average variable income</small>
+            </div>
+
+            <div class="form-group">
+                <label for="sideIncome">Side Income/Freelance (₹/month)</label>
+                <input type="number" id="sideIncome" placeholder="e.g., 5000" value="0">
+            </div>
+
+            <div class="form-group">
+                <label for="spouseIncome">Spouse Income (₹/month)</label>
+                <input type="number" id="spouseIncome" placeholder="e.g., 50000" value="0">
+            </div>
+
+            <div class="form-group">
+                <label for="otherIncome">Other Income (₹/month)</label>
+                <input type="number" id="otherIncome" placeholder="e.g., 2000" value="0">
+                <small>Rent received, interest, dividends, etc.</small>
+            </div>
+
+            <p style="margin-top: 20px; padding: 12px; background: #f5f5f5; border-radius: 6px; font-size: 13px;">
+                <strong>Total Monthly Income: ₹<span id="totalIncomeDisplay">0</span></strong>
+            </p>
+
+            <div class="page-number">Page 2 of 9</div>
+        </div>
+
+        <!-- PAGE 3: Monthly Expenses -->
+        <div class="page" id="page3">
+            <h2>Monthly Expenses Breakdown</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="rent">Rent/Housing (₹)</label>
+                    <input type="number" id="rent" placeholder="e.g., 20000" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="groceries">Groceries & Food (₹)</label>
+                    <input type="number" id="groceries" placeholder="e.g., 10000" value="0">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="utilities">Utilities (₹)</label>
+                    <input type="number" id="utilities" placeholder="e.g., 2000" value="0">
+                    <small>Electricity, water, internet</small>
+                </div>
+                <div class="form-group">
+                    <label for="transportation">Transportation (₹)</label>
+                    <input type="number" id="transportation" placeholder="e.g., 2000" value="0">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="childEducation">Child Education/School (₹)</label>
+                    <input type="number" id="childEducation" placeholder="e.g., 5000" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="medical">Medical & Healthcare (₹)</label>
+                    <input type="number" id="medical" placeholder="e.g., 1000" value="0">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="subscriptions">Subscriptions & Entertainment (₹)</label>
+                <input type="number" id="subscriptions" placeholder="e.g., 1000" value="0">
+            </div>
+            <div class="form-group">
+                <label for="shopping">Shopping & Personal (₹)</label>
+                <input type="number" id="shopping" placeholder="e.g., 2000" value="0">
+            </div>
+            <div class="form-group">
+                <label for="otherExpenses">Other Expenses (₹)</label>
+                <input type="number" id="otherExpenses" placeholder="e.g., 2000" value="0">
+            </div>
+
+            <p style="margin-top: 20px; padding: 12px; background: #f5f5f5; border-radius: 6px; font-size: 13px;">
+                <strong>Total Monthly Expenses: ₹<span id="totalExpensesDisplay">0</span></strong>
+            </p>
+
+            <div class="page-number">Page 3 of 9</div>
+        </div>
+
+        <!-- PAGE 4: Insurance & Insurance Premiums -->
+        <div class="page" id="page4">
+            <h2>Insurance Coverage & Premiums</h2>
+            
+            <div class="info-box">ℹ️ Include personal insurance beyond employer coverage</div>
+
+            <h3 style="margin-top: 25px; margin-bottom: 15px;">Health Insurance</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="healthInsurance">Have Health Insurance? *</label>
+                    <select id="healthInsurance" required>
+                        <option value="">-- Select --</option>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="healthCoverage">Coverage Amount (₹)</label>
+                    <input type="number" id="healthCoverage" placeholder="e.g., 500000" value="0">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="healthType">Type of Coverage *</label>
+                    <select id="healthType" required>
+                        <option value="">-- Select --</option>
+                        <option value="individual">Individual</option>
+                        <option value="family-floater">Family Floater</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="healthPremium">Monthly Premium (₹)</label>
+                    <input type="number" id="healthPremium" placeholder="e.g., 500" value="0">
                 </div>
             </div>
 
-            <!-- SECTION 2: INSURANCE STATUS -->
-            <div class="section">
-                <h2>🛡️ Insurance Coverage</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="healthInsurance">Do you have Health Insurance?*</label>
-                        <select id="healthInsurance" required>
-                            <option value="">-- Select --</option>
-                            <option value="no">No</option>
-                            <option value="yes">Yes</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="healthCoverage">Health Insurance Coverage (₹)</label>
-                        <input type="number" id="healthCoverage" placeholder="e.g., 500000">
-                        <small style="color: #666;">Leave blank if no insurance</small>
-                    </div>
+            <h3 style="margin-top: 25px; margin-bottom: 15px;">Term Insurance</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="termInsurance">Have Term Insurance? *</label>
+                    <select id="termInsurance" required>
+                        <option value="">-- Select --</option>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="healthFloater">Is it Family Floater or Individual?</label>
-                        <select id="healthFloater">
-                            <option value="">-- Select --</option>
-                            <option value="individual">Individual</option>
-                            <option value="family-floater">Family Floater</option>
-                        </select>
-                    </div>
-                    <div></div>
+                <div class="form-group">
+                    <label for="termCoverage">Sum Assured (₹)</label>
+                    <input type="number" id="termCoverage" placeholder="e.g., 5000000" value="0">
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="termInsurance">Do you have Term Insurance?*</label>
-                        <select id="termInsurance" required>
-                            <option value="">-- Select --</option>
-                            <option value="no">No</option>
-                            <option value="yes">Yes</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="termCoverage">Term Insurance Sum Assured (₹)</label>
-                        <input type="number" id="termCoverage" placeholder="e.g., 5000000">
-                        <small style="color: #666;">Leave blank if no insurance</small>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="termPremium">Monthly Premium (₹)</label>
+                <input type="number" id="termPremium" placeholder="e.g., 300" value="0">
+            </div>
+
+            <p style="margin-top: 20px; padding: 12px; background: #f5f5f5; border-radius: 6px; font-size: 13px;">
+                <strong>Total Insurance Premiums: ₹<span id="totalInsurancePremiumDisplay">0</span>/month</strong>
+            </p>
+
+            <div class="page-number">Page 4 of 9</div>
+        </div>
+
+        <!-- PAGE 5: Emergency Fund & Goals -->
+        <div class="page" id="page5">
+            <h2>Emergency Fund & Goals</h2>
+
+            <h3 style="margin-bottom: 15px;">Emergency Fund</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="currentEF">Current Emergency Fund (₹) *</label>
+                    <input type="number" id="currentEF" placeholder="e.g., 200000" required>
+                </div>
+                <div class="form-group">
+                    <label for="efTarget">Target EF Level *</label>
+                    <select id="efTarget" required>
+                        <option value="">-- Select --</option>
+                        <option value="6">Minimum (6 months)</option>
+                        <option value="9">Ideal (9 months)</option>
+                        <option value="12">Safest (12 months)</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- SECTION 3: EMERGENCY FUND -->
-            <div class="section">
-                <h2>🆘 Emergency Fund</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="currentEF">Current Emergency Fund Balance (₹)*</label>
-                        <input type="number" id="currentEF" placeholder="e.g., 500000" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="efTarget">Emergency Fund Target*</label>
-                        <select id="efTarget" required>
-                            <option value="">-- Select --</option>
-                            <option value="6">Minimum (6 months obligations)</option>
-                            <option value="9">Ideal (9 months obligations)</option>
-                            <option value="12">Safest (12 months obligations)</option>
-                        </select>
-                    </div>
+            <h3 style="margin-top: 25px; margin-bottom: 15px;">Financial Goals</h3>
+            <div id="goalsContainer"></div>
+            <button type="button" class="add-btn" onclick="addGoal()">+ Add Goal</button>
+
+            <div class="page-number">Page 5 of 9</div>
+        </div>
+
+        <!-- PAGE 6: Existing Debts -->
+        <div class="page" id="page6">
+            <h2>Existing Debts</h2>
+            <div class="info-box">ℹ️ List all loans (Personal, Home, Auto, Gold, etc.)</div>
+            
+            <div id="debtsContainer"></div>
+            <button type="button" class="add-btn" onclick="addDebt()">+ Add Debt</button>
+
+            <div class="page-number">Page 6 of 9</div>
+        </div>
+
+        <!-- PAGE 7: Current Investments & SIP Strategy -->
+        <div class="page" id="page7">
+            <h2>Current Investments & SIP Strategy</h2>
+
+            <h3 style="margin-bottom: 15px;">Current Investments</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="currentSIP">Current SIP Amount (₹/month)</label>
+                    <input type="number" id="currentSIP" placeholder="e.g., 5000" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="investedAmount">Total Invested in ETFs/MFs (₹)</label>
+                    <input type="number" id="investedAmount" placeholder="e.g., 500000" value="0">
                 </div>
             </div>
 
-            <!-- SECTION 4: EXISTING DEBTS -->
-            <div class="section">
-                <h2>💳 Existing Debts</h2>
-                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">List all loans (Personal, Home, Auto, Gold Loan, etc.)</p>
-                <div id="debtsContainer">
-                    <!-- Debts will be added here -->
-                </div>
-                <button type="button" class="add-more-btn" onclick="addDebt()">+ Add Debt</button>
+            <h3 style="margin-top: 25px; margin-bottom: 15px;">SIP Step-Up Plan</h3>
+            <div class="warning-box">⚠️ Define your SIP increase strategy. Example: ₹25K → ₹40K → ₹60K</div>
+            
+            <div id="stepupContainer"></div>
+            <button type="button" class="add-btn" onclick="addStepup()">+ Add Step</button>
+
+            <div class="page-number">Page 7 of 9</div>
+        </div>
+
+        <!-- PAGE 8: Investment Preferences -->
+        <div class="page" id="page8">
+            <h2>Investment Preferences</h2>
+
+            <div class="form-group">
+                <label for="investmentTenure">Investment Tenure (years) *</label>
+                <input type="number" id="investmentTenure" placeholder="e.g., 15" required>
+                <small>How long can you stay invested?</small>
             </div>
 
-            <!-- SECTION 5: CURRENT INVESTMENTS -->
-            <div class="section">
-                <h2>📈 Current Investments</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="currentSIP">Current SIP Amount (₹/month)</label>
-                        <input type="number" id="currentSIP" placeholder="e.g., 5000" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="investedAmount">Total Amount Invested (ETFs/MFs/etc) (₹)</label>
-                        <input type="number" id="investedAmount" placeholder="e.g., 500000" value="0">
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="expectedReturn">Expected Annual Return (%) *</label>
+                <input type="number" id="expectedReturn" placeholder="e.g., 12" step="0.5" value="12" required>
+                <small>For Equity MFs (usually 10-15%), adjust based on your risk profile</small>
             </div>
 
-            <!-- SECTION 6: INVESTMENT TENURE -->
-            <div class="section">
-                <h2>⏰ Investment Tenure</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="investmentTenure">How many years can you stay invested?*</label>
-                        <input type="number" id="investmentTenure" placeholder="e.g., 10" required>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="inflationRate">Annual Inflation Rate (%)</label>
+                <input type="number" id="inflationRate" placeholder="e.g., 6" step="0.5" value="6">
+                <small>For inflation-adjusted goal calculations</small>
             </div>
 
-            <!-- SECTION 7: GOALS -->
-            <div class="section">
-                <h2>🎯 Financial Goals</h2>
-                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">List your short to long-term goals (optional)</p>
-                <div id="goalsContainer">
-                    <!-- Goals will be added here -->
-                </div>
-                <button type="button" class="btn-secondary" onclick="addGoal()">+ Add Goal</button>
+            <div class="form-group">
+                <label for="rentMonthly">Monthly Rent (for Rent vs Buy) (₹)</label>
+                <input type="number" id="rentMonthly" placeholder="e.g., 20000" value="0">
+                <small>Used to compare renting vs buying a home</small>
             </div>
 
-            <!-- CALCULATE BUTTON -->
-            <button type="submit" class="btn-calculate">📊 Generate My Financial Plan</button>
-        </form>
+            <div class="form-group">
+                <label for="homePrice">Home Price (for Rent vs Buy) (₹)</label>
+                <input type="number" id="homePrice" placeholder="e.g., 8000000" value="0">
+                <small>Target home price you want to buy</small>
+            </div>
 
-        <!-- RESULTS SECTION -->
-        <div id="resultsSection" class="results">
-            <h2>✨ Your Personalized Financial Plan</h2>
+            <div class="form-group">
+                <label for="homeLoanRate">Home Loan Interest Rate (%)</label>
+                <input type="number" id="homeLoanRate" placeholder="e.g., 8" step="0.1" value="8">
+                <small>If you take a home loan</small>
+            </div>
+
+            <div class="page-number">Page 8 of 9</div>
+        </div>
+
+        <!-- PAGE 9: Review & Calculate -->
+        <div class="page" id="page9">
+            <h2>Review & Calculate</h2>
+            <div class="info-box">✓ Review all information and click "Generate Plan" to see your personalized financial strategy</div>
+            
+            <div id="reviewSummary" style="margin-top: 20px;"></div>
+
+            <div class="page-number">Page 9 of 9</div>
+        </div>
+
+        <!-- RESULTS PAGE -->
+        <div class="results-container" id="resultsContainer">
+            <h2 style="margin-bottom: 20px;">🎯 Your Advanced Financial Plan</h2>
             <div id="resultsContent"></div>
+            <div class="button-group" style="margin-top: 40px;">
+                <button class="btn-secondary" onclick="resetForm()">← Start Over</button>
+                <button class="btn-primary" onclick="window.print()">🖨️ Print Plan</button>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="button-group" id="navigationButtons">
+            <button class="btn-secondary" id="prevBtn" onclick="previousPage()" style="display:none;">← Previous</button>
+            <button class="btn-primary" id="nextBtn" onclick="nextPage()">Next →</button>
         </div>
     </div>
 
     <script>
-        // ===== INITIALIZATION =====
+        let currentPage = 1;
+        const totalPages = 9;
         let debtCount = 0;
         let goalCount = 0;
+        let stepupCount = 0;
 
-        // Add initial debt field
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressBar();
+            updateNavigation();
+            addDebt();
+            addGoal();
+            addStepup();
+            
+            // Auto-calculate totals
+            document.getElementById('baseSalary').addEventListener('change', updateTotalIncome);
+            document.getElementById('avgBonus').addEventListener('change', updateTotalIncome);
+            document.getElementById('sideIncome').addEventListener('change', updateTotalIncome);
+            document.getElementById('spouseIncome').addEventListener('change', updateTotalIncome);
+            document.getElementById('otherIncome').addEventListener('change', updateTotalIncome);
+
+            const expenseInputs = ['rent', 'groceries', 'utilities', 'transportation', 'childEducation', 'medical', 'subscriptions', 'shopping', 'otherExpenses'];
+            expenseInputs.forEach(id => {
+                document.getElementById(id).addEventListener('change', updateTotalExpenses);
+            });
+
+            const insuranceInputs = ['healthPremium', 'termPremium'];
+            insuranceInputs.forEach(id => {
+                document.getElementById(id).addEventListener('change', updateTotalInsurancePremium);
+            });
+        });
+
+        function updateTotalIncome() {
+            const total = (parseFloat(document.getElementById('baseSalary').value) || 0) +
+                         (parseFloat(document.getElementById('avgBonus').value) || 0) +
+                         (parseFloat(document.getElementById('sideIncome').value) || 0) +
+                         (parseFloat(document.getElementById('spouseIncome').value) || 0) +
+                         (parseFloat(document.getElementById('otherIncome').value) || 0);
+            document.getElementById('totalIncomeDisplay').textContent = total.toLocaleString('en-IN');
+        }
+
+        function updateTotalExpenses() {
+            const expenseInputs = ['rent', 'groceries', 'utilities', 'transportation', 'childEducation', 'medical', 'subscriptions', 'shopping', 'otherExpenses'];
+            const total = expenseInputs.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
+            document.getElementById('totalExpensesDisplay').textContent = total.toLocaleString('en-IN');
+        }
+
+        function updateTotalInsurancePremium() {
+            const total = (parseFloat(document.getElementById('healthPremium').value) || 0) +
+                         (parseFloat(document.getElementById('termPremium').value) || 0);
+            document.getElementById('totalInsurancePremiumDisplay').textContent = total.toLocaleString('en-IN');
+        }
+
         function addDebt() {
             debtCount++;
             const debtHTML = `
-                <div class="debt-item" id="debt-${debtCount}">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Debt Name (e.g., Personal Loan)</label>
-                            <input type="text" class="debtName" placeholder="e.g., Personal Loan">
-                        </div>
-                        <div class="form-group">
-                            <label>Outstanding Amount (₹)</label>
-                            <input type="number" class="debtAmount" placeholder="e.g., 500000">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Interest Rate (%) p.a.</label>
-                            <input type="number" class="debtRate" placeholder="e.g., 10.5" step="0.1">
-                        </div>
-                        <div class="form-group">
-                            <label>Tenure Remaining (months)</label>
-                            <input type="number" class="debtTenure" placeholder="e.g., 36">
+                <div class="row-item" id="debt-${debtCount}">
+                    <div class="row-item-content">
+                        <input type="text" class="debtName" placeholder="Debt name (e.g., Personal Loan)" style="margin-bottom: 8px;">
+                        <div class="form-row" style="margin: 0;">
+                            <input type="number" class="debtAmount" placeholder="Amount (₹)" style="width: 100%;">
+                            <input type="number" class="debtRate" placeholder="Interest %" step="0.1" style="width: 100%;">
+                            <input type="number" class="debtEMI" placeholder="Monthly EMI (₹)" style="width: 100%;">
+                            <input type="number" class="debtTenure" placeholder="Tenure (months)" style="width: 100%;">
                         </div>
                     </div>
-                    <button type="button" class="debt-item-remove" onclick="removeDebt(${debtCount})">Remove</button>
+                    <button class="row-item-delete" onclick="removeDebt(${debtCount})">Delete</button>
                 </div>
             `;
             document.getElementById('debtsContainer').innerHTML += debtHTML;
@@ -501,25 +797,15 @@
         function addGoal() {
             goalCount++;
             const goalHTML = `
-                <div class="debt-item" id="goal-${goalCount}">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Goal Name (e.g., Land Purchase)</label>
-                            <input type="text" class="goalName" placeholder="e.g., Land Purchase">
-                        </div>
-                        <div class="form-group">
-                            <label>Target Amount (₹)</label>
-                            <input type="number" class="goalAmount" placeholder="e.g., 5000000">
+                <div class="row-item" id="goal-${goalCount}">
+                    <div class="row-item-content">
+                        <input type="text" class="goalName" placeholder="Goal name (e.g., Land Purchase)" style="margin-bottom: 8px;">
+                        <div class="form-row" style="margin: 0;">
+                            <input type="number" class="goalAmount" placeholder="Target Amount (₹)" style="width: 100%;">
+                            <input type="number" class="goalYear" placeholder="Target Year (e.g., 2035)" style="width: 100%;">
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Target Year</label>
-                            <input type="number" class="goalYear" placeholder="e.g., 2035">
-                        </div>
-                        <div></div>
-                    </div>
-                    <button type="button" class="debt-item-remove" onclick="removeGoal(${goalCount})">Remove</button>
+                    <button class="row-item-delete" onclick="removeGoal(${goalCount})">Delete</button>
                 </div>
             `;
             document.getElementById('goalsContainer').innerHTML += goalHTML;
@@ -530,354 +816,556 @@
             if (element) element.remove();
         }
 
-        // ===== FORM SUBMISSION & CALCULATIONS =====
-        document.getElementById('plannerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            generatePlan();
-        });
+        function addStepup() {
+            stepupCount++;
+            const stepupHTML = `
+                <div class="row-item" id="stepup-${stepupCount}">
+                    <div class="row-item-content">
+                        <div class="form-row" style="margin: 0;">
+                            <input type="number" class="stepupYear" placeholder="Year (e.g., 1)" style="width: 100%;">
+                            <input type="number" class="stepupAmount" placeholder="SIP Amount (₹) (e.g., 25000)" style="width: 100%;">
+                        </div>
+                    </div>
+                    <button class="row-item-delete" onclick="removeStepup(${stepupCount})">Delete</button>
+                </div>
+            `;
+            document.getElementById('stepupContainer').innerHTML += stepupHTML;
+        }
 
-        function generatePlan() {
-            // Collect form data
-            const age = parseInt(document.getElementById('age').value);
-            const familySize = parseInt(document.getElementById('familySize').value);
-            const dependents = parseInt(document.getElementById('dependents').value);
-            const employmentStatus = document.getElementById('employmentStatus').value;
-            
-            const monthlyIncome = parseFloat(document.getElementById('monthlyIncome').value);
-            const monthlyObligations = parseFloat(document.getElementById('monthlyObligations').value);
-            
-            const healthInsurance = document.getElementById('healthInsurance').value;
-            const healthCoverage = parseFloat(document.getElementById('healthCoverage').value) || 0;
-            const healthFloater = document.getElementById('healthFloater').value;
-            
-            const termInsurance = document.getElementById('termInsurance').value;
-            const termCoverage = parseFloat(document.getElementById('termCoverage').value) || 0;
-            
-            const currentEF = parseFloat(document.getElementById('currentEF').value);
-            const efTarget = parseInt(document.getElementById('efTarget').value);
-            const currentSIP = parseFloat(document.getElementById('currentSIP').value);
-            const investedAmount = parseFloat(document.getElementById('investedAmount').value);
-            const investmentTenure = parseInt(document.getElementById('investmentTenure').value);
+        function removeStepup(id) {
+            const element = document.getElementById(`stepup-${id}`);
+            if (element) element.remove();
+        }
 
-            // Calculate EF target amount
-            const efTargetAmount = monthlyObligations * efTarget;
-            const efShortfall = Math.max(0, efTargetAmount - currentEF);
-            const efMonthsToReach = efShortfall > 0 ? Math.ceil(efShortfall / (monthlyIncome - monthlyObligations)) : 0;
+        function nextPage() {
+            if (validateCurrentPage()) {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    if (currentPage === totalPages) {
+                        updateReviewSummary();
+                    }
+                } else {
+                    generatePlan();
+                }
+                showPage(currentPage);
+            }
+        }
 
-            // Collect debts
-            const debts = [];
-            document.querySelectorAll('.debt-item').forEach((item) => {
-                const debt = {
-                    name: item.querySelector('.debtName').value || 'Unnamed Debt',
-                    amount: parseFloat(item.querySelector('.debtAmount').value) || 0,
-                    rate: parseFloat(item.querySelector('.debtRate').value) || 0,
-                    tenure: parseFloat(item.querySelector('.debtTenure').value) || 0
-                };
-                if (debt.amount > 0) debts.push(debt);
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        function showPage(pageNum) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
             });
 
-            // Analyze debts and create payoff strategy
-            const debtAnalysis = analyzeDebts(debts);
+            // Show current page
+            document.getElementById(`page${pageNum}`).classList.add('active');
 
-            // Check insurance and get suggestions
-            const insuranceRecommendation = checkInsurance(
-                healthInsurance, healthCoverage, healthFloater,
-                termInsurance, termCoverage,
-                age, familySize, dependents, monthlyIncome, monthlyObligations
-            );
+            // Update navigation
+            updateNavigation();
+            updateProgressBar();
 
-            // Calculate surplus
-            const monthlySurplus = monthlyIncome - monthlyObligations;
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
 
-            // Collect goals
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (currentPage === 1) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'block';
+            }
+
+            if (currentPage === totalPages) {
+                nextBtn.textContent = '✓ Generate Plan';
+            } else {
+                nextBtn.textContent = 'Next →';
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = (currentPage / totalPages) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function validateCurrentPage() {
+            const requiredFields = document.querySelectorAll(`#page${currentPage} input[required], #page${currentPage} select[required]`);
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value) {
+                    isValid = false;
+                    field.style.borderColor = '#ff6b6b';
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+
+            if (!isValid) {
+                alert('Please fill all required fields');
+            }
+
+            return isValid;
+        }
+
+        function updateReviewSummary() {
+            const totalIncome = (parseFloat(document.getElementById('baseSalary').value) || 0) +
+                               (parseFloat(document.getElementById('avgBonus').value) || 0) +
+                               (parseFloat(document.getElementById('sideIncome').value) || 0) +
+                               (parseFloat(document.getElementById('spouseIncome').value) || 0) +
+                               (parseFloat(document.getElementById('otherIncome').value) || 0);
+
+            const html = `
+                <div class="result-card">
+                    <h3>Summary of Your Information</h3>
+                    <p><strong>Monthly Income:</strong> ₹${totalIncome.toLocaleString('en-IN')}</p>
+                    <p><strong>Age:</strong> ${document.getElementById('age').value} years</p>
+                    <p><strong>Family Size:</strong> ${document.getElementById('familySize').value}</p>
+                    <p><strong>Investment Tenure:</strong> ${document.getElementById('investmentTenure').value} years</p>
+                    <p style="margin-top: 15px; padding: 12px; background: #e3f2fd; border-radius: 6px;">
+                        ✓ All information reviewed. Click "Generate Plan" to see your personalized wealth creation strategy.
+                    </p>
+                </div>
+            `;
+            document.getElementById('reviewSummary').innerHTML = html;
+        }
+
+        function generatePlan() {
+            // Collect all data
+            const formData = {
+                age: parseInt(document.getElementById('age').value),
+                familySize: parseInt(document.getElementById('familySize').value),
+                dependents: parseInt(document.getElementById('dependents').value),
+                employmentStatus: document.getElementById('employmentStatus').value,
+                
+                baseSalary: parseFloat(document.getElementById('baseSalary').value) || 0,
+                avgBonus: parseFloat(document.getElementById('avgBonus').value) || 0,
+                sideIncome: parseFloat(document.getElementById('sideIncome').value) || 0,
+                spouseIncome: parseFloat(document.getElementById('spouseIncome').value) || 0,
+                otherIncome: parseFloat(document.getElementById('otherIncome').value) || 0,
+                
+                rent: parseFloat(document.getElementById('rent').value) || 0,
+                groceries: parseFloat(document.getElementById('groceries').value) || 0,
+                utilities: parseFloat(document.getElementById('utilities').value) || 0,
+                transportation: parseFloat(document.getElementById('transportation').value) || 0,
+                childEducation: parseFloat(document.getElementById('childEducation').value) || 0,
+                medical: parseFloat(document.getElementById('medical').value) || 0,
+                subscriptions: parseFloat(document.getElementById('subscriptions').value) || 0,
+                shopping: parseFloat(document.getElementById('shopping').value) || 0,
+                otherExpenses: parseFloat(document.getElementById('otherExpenses').value) || 0,
+                
+                healthInsurance: document.getElementById('healthInsurance').value,
+                healthCoverage: parseFloat(document.getElementById('healthCoverage').value) || 0,
+                healthType: document.getElementById('healthType').value,
+                healthPremium: parseFloat(document.getElementById('healthPremium').value) || 0,
+                
+                termInsurance: document.getElementById('termInsurance').value,
+                termCoverage: parseFloat(document.getElementById('termCoverage').value) || 0,
+                termPremium: parseFloat(document.getElementById('termPremium').value) || 0,
+                
+                currentEF: parseFloat(document.getElementById('currentEF').value) || 0,
+                efTarget: parseInt(document.getElementById('efTarget').value),
+                
+                currentSIP: parseFloat(document.getElementById('currentSIP').value) || 0,
+                investedAmount: parseFloat(document.getElementById('investedAmount').value) || 0,
+                
+                investmentTenure: parseInt(document.getElementById('investmentTenure').value),
+                expectedReturn: parseFloat(document.getElementById('expectedReturn').value) || 12,
+                inflationRate: parseFloat(document.getElementById('inflationRate').value) || 6,
+                
+                rentMonthly: parseFloat(document.getElementById('rentMonthly').value) || 0,
+                homePrice: parseFloat(document.getElementById('homePrice').value) || 0,
+                homeLoanRate: parseFloat(document.getElementById('homeLoanRate').value) || 8,
+            };
+
+            // Collect debts, goals, stepup
+            const debts = [];
+            document.querySelectorAll('#debtsContainer .row-item').forEach(item => {
+                const debt = {
+                    name: item.querySelector('.debtName').value,
+                    amount: parseFloat(item.querySelector('.debtAmount').value) || 0,
+                    rate: parseFloat(item.querySelector('.debtRate').value) || 0,
+                    monthlyEMI: parseFloat(item.querySelector('.debtEMI').value) || 0,
+                    tenure: parseFloat(item.querySelector('.debtTenure').value) || 0
+                };
+                if (debt.amount > 0 && debt.monthlyEMI > 0) debts.push(debt);
+            });
+
             const goals = [];
-            document.querySelectorAll('#goalsContainer .debt-item').forEach((item) => {
+            document.querySelectorAll('#goalsContainer .row-item').forEach(item => {
                 const goal = {
-                    name: item.querySelector('.goalName').value || 'Unnamed Goal',
+                    name: item.querySelector('.goalName').value,
                     amount: parseFloat(item.querySelector('.goalAmount').value) || 0,
                     year: parseInt(item.querySelector('.goalYear').value) || 0
                 };
                 if (goal.amount > 0 && goal.year > 0) goals.push(goal);
             });
 
-            // Generate recommendations
-            generateRecommendations(
-                age, familySize, dependents, employmentStatus,
-                monthlyIncome,
-                monthlyObligations,
-                currentEF,
-                efTargetAmount,
-                efMonthsToReach,
-                monthlySurplus,
-                debts,
-                debtAnalysis,
-                insuranceRecommendation,
-                investmentTenure,
-                investedAmount,
-                goals
-            );
-        }
-
-        function analyzeDebts(debts) {
-            if (debts.length === 0) {
-                return {
-                    recommendation: "No debts detected. Good!",
-                    debtFree: true,
-                    priorityDebts: []
+            const stepups = [];
+            document.querySelectorAll('#stepupContainer .row-item').forEach(item => {
+                const stepup = {
+                    year: parseInt(item.querySelector('.stepupYear').value) || 0,
+                    amount: parseFloat(item.querySelector('.stepupAmount').value) || 0
                 };
-            }
+                if (stepup.year > 0 && stepup.amount > 0) stepups.push(stepup);
+            });
 
-            // Sort by interest rate descending
-            let sortedByRate = [...debts].sort((a, b) => b.rate - a.rate);
+            // Generate results
+            generateResults(formData, debts, goals, stepups);
 
-            // Create priority list
-            const priorityDebts = sortedByRate.map(debt => ({
-                ...debt,
-                monthlyEMI: debt.amount / (debt.tenure / 12)
-            }));
-
-            return {
-                debtFree: false,
-                priorityDebts: priorityDebts,
-                totalDebtOutstanding: debts.reduce((sum, d) => sum + d.amount, 0)
-            };
+            // Show results
+            document.getElementById('navigationButtons').style.display = 'none';
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('resultsContainer').classList.add('active');
+            window.scrollTo(0, 0);
         }
 
-        function checkInsurance(healthIns, healthCov, healthFloat, termIns, termCov, age, familySize, dependents, income, obligations) {
-            const recommendations = [];
-            
-            // Health Insurance recommendations
-            if (healthIns === 'no') {
-                recommendations.push({
-                    type: 'urgent',
-                    title: 'Health Insurance Missing',
-                    message: `Get Health Insurance immediately (besides employer-provided if you're an employee).`,
-                    suggestion: `For family size ${familySize}: Recommend ₹10-15L coverage (Family Floater)`
-                });
-            } else if (healthIns === 'yes' && healthCov > 0) {
-                let healthStatus = 'adequate';
-                let healthSuggestion = '';
-                
-                // Calculate suggested coverage based on family and income
-                const suggestedHealthCov = familySize <= 2 ? 1000000 : (familySize === 3 ? 1500000 : 2000000);
-                
-                if (healthCov < suggestedHealthCov) {
-                    healthStatus = 'low';
-                    healthSuggestion = ` Current: ₹${healthCov.toLocaleString('en-IN')} | Suggested: ₹${suggestedHealthCov.toLocaleString('en-IN')} for family size ${familySize}`;
-                }
-                
-                const floaterType = healthFloat === 'family-floater' ? '(Family Floater)' : '(Individual)';
-                recommendations.push({
-                    type: healthStatus === 'low' ? 'warning' : 'good',
-                    title: `Health Insurance ${floaterType}`,
-                    coverage: healthCov,
-                    message: healthStatus === 'low' ? 
-                        `Coverage may be insufficient for family size ${familySize}.${healthSuggestion}` :
-                        `Coverage: ₹${healthCov.toLocaleString('en-IN')} is adequate.${healthSuggestion}`
-                });
-            }
-            
-            // Term Insurance recommendations
-            if (termIns === 'no') {
-                const recommendedTermCov = income * 120; // 10 years of income
-                recommendations.push({
-                    type: 'urgent',
-                    title: 'Term Insurance Missing',
-                    message: `Get Term Insurance immediately (besides employer-provided if you're an employee).`,
-                    suggestion: `Recommended sum assured: ₹${recommendedTermCov.toLocaleString('en-IN')} (10x annual income) for ${dependents} dependent(s).`
-                });
-            } else if (termIns === 'yes' && termCov > 0) {
-                const recommendedTermCov = income * 120; // 10 years of income
-                let termStatus = 'adequate';
-                
-                if (termCov < recommendedTermCov) {
-                    termStatus = 'low';
-                }
-                
-                recommendations.push({
-                    type: termStatus === 'low' ? 'warning' : 'good',
-                    title: 'Term Insurance',
-                    coverage: termCov,
-                    message: termStatus === 'low' ?
-                        `Coverage may be insufficient for ${dependents} dependent(s).` :
-                        `Coverage: ₹${termCov.toLocaleString('en-IN')} is adequate for ${dependents} dependent(s).`,
-                    suggestion: termStatus === 'low' ? 
-                        `Suggested: ₹${recommendedTermCov.toLocaleString('en-IN')} (10x annual income = ₹${(income * 12).toLocaleString('en-IN')})` :
-                        `Good coverage for your family size and income.`
-                });
-            }
-            
-            const hasMissing = recommendations.some(r => r.type === 'urgent');
-            
-            return {
-                hasMissing: hasMissing,
-                recommendations: recommendations
-            };
-        }
-
-        function generateRecommendations(
-            age, familySize, dependents, employmentStatus,
-            income, obligations, currentEF, efTarget, efMonths, surplus,
-            debts, debtAnalysis, insuranceRec, investTenure, invested, goals
-        ) {
+        function generateResults(formData, debts, goals, stepups) {
             let html = '';
 
-            // 1. INSURANCE RECOMMENDATIONS (First Priority)
-            if (insuranceRec.hasMissing) {
-                insuranceRec.recommendations.forEach((rec) => {
-                    if (rec.type === 'urgent') {
-                        html += `
-                            <div class="recommendation urgent">
-                                <h3>🚨 Priority 1: ${rec.title}</h3>
-                                <p>${rec.message}</p>
-                                <p style="margin-top: 10px; font-size: 13px; color: #666;"><strong>💡 Suggestion:</strong> ${rec.suggestion}</p>
-                            </div>
-                        `;
-                    }
-                });
-            }
-            
-            // Show coverage summaries
-            html += `<div class="recommendation">`;
-            insuranceRec.recommendations.forEach((rec) => {
-                if (rec.type !== 'urgent') {
-                    const icon = rec.type === 'good' ? '✅' : '⚠️';
-                    html += `
-                        <h3>${icon} ${rec.title}</h3>
-                        <p>${rec.message}</p>
-                        ${rec.suggestion ? `<p style="margin-top: 8px; font-size: 13px; color: #666;">${rec.suggestion}</p>` : ''}
-                    `;
-                }
-            });
-            html += `</div>`;
+            // 1. INCOME & OBLIGATIONS BREAKDOWN
+            const totalIncome = formData.baseSalary + formData.avgBonus + formData.sideIncome + formData.spouseIncome + formData.otherIncome;
+            const totalExpenses = formData.rent + formData.groceries + formData.utilities + formData.transportation + formData.childEducation + formData.medical + formData.subscriptions + formData.shopping + formData.otherExpenses;
+            const totalEMI = debts.reduce((sum, d) => sum + (d.monthlyEMI || 0), 0);
+            const totalInsurancePremium = formData.healthPremium + formPremium;
+            const totalObligations = totalExpenses + totalEMI + totalInsurancePremium;
+            const monthlySurplus = totalIncome - totalObligations;
+            const savingsRate = ((monthlySurplus / totalIncome) * 100).toFixed(1);
+            const expenseRatio = ((totalExpenses / totalIncome) * 100).toFixed(1);
+            const debtRatio = ((totalEMI / totalIncome) * 100).toFixed(1);
+            const insuranceRatio = ((totalInsurancePremium / totalIncome) * 100).toFixed(1);
 
-            // 2. EMERGENCY FUND
-            if (currentEF < efTarget) {
-                html += `
-                    <div class="recommendation warning">
-                        <h3>📊 Priority 2: Build Emergency Fund</h3>
-                        <p>Current EF: <span class="value">₹${currentEF.toLocaleString('en-IN')}</span></p>
-                        <p>Target EF: <span class="value">₹${efTarget.toLocaleString('en-IN')}</span></p>
-                        <p>Shortfall: <span class="value">₹${(efTarget - currentEF).toLocaleString('en-IN')}</span></p>
-                        <p style="margin-top: 10px;">⏰ <strong>Timeline: ~${efMonths} months</strong> (if you save your entire monthly surplus)</p>
-                        <p style="margin-top: 10px; font-size: 13px; color: #666;">Start building your emergency fund immediately. This is your financial safety net.</p>
-                    </div>
-                `;
-            } else {
-                html += `
-                    <div class="recommendation">
-                        <h3>✅ Emergency Fund Status</h3>
-                        <p>Your EF is at: <span class="value">₹${currentEF.toLocaleString('en-IN')}</span></p>
-                        <p>Target met! ✅ You have <span class="value">${(currentEF / obligations).toFixed(1)} months</span> of expenses covered.</p>
-                    </div>
-                `;
-            }
-
-            // 3. DEBT ANALYSIS
-            if (debtAnalysis.debtFree) {
-                html += `
-                    <div class="recommendation">
-                        <h3>✅ Debt Status</h3>
-                        <p>You have no outstanding debts. Excellent position!</p>
-                    </div>
-                `;
-            } else {
-                html += `
-                    <div class="recommendation warning">
-                        <h3>💳 Priority 3: Debt Payoff Strategy</h3>
-                        <p>Total Debt Outstanding: <span class="value">₹${debtAnalysis.totalDebtOutstanding.toLocaleString('en-IN')}</span></p>
-                        <div style="margin-top: 15px;">
-                            <strong>Recommended Payoff Priority:</strong>
-                            <ol style="margin-top: 10px; padding-left: 20px; line-height: 1.8;">
-`;
-                debtAnalysis.priorityDebts.forEach((debt, index) => {
-                    const tenureWarning = debt.tenure <= 12 ? ' ⚠️ (Short tenure - consider clearing next highest interest debt first)' : '';
-                    const lowInterestWarning = debt.rate < 9 ? ' ℹ️ (Low interest - consider investing instead after EF is built)' : '';
-                    html += `
-                                <li>
-                                    <strong>${debt.name}</strong><br>
-                                    Amount: ₹${debt.amount.toLocaleString('en-IN')} | Rate: ${debt.rate}% | Tenure: ${debt.tenure} months${tenureWarning}${lowInterestWarning}
-                                </li>
-`;
-                });
-                html += `
-                            </ol>
+            html += `
+                <div class="result-card">
+                    <h3>💰 Income & Obligations Analysis</h3>
+                    <div class="result-metric">
+                        <div class="metric-box">
+                            <div class="metric-label">Monthly Income</div>
+                            <div class="metric-value">₹${totalIncome.toLocaleString('en-IN')}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Total Obligations</div>
+                            <div class="metric-value">₹${totalObligations.toLocaleString('en-IN')}</div>
                         </div>
                     </div>
-                `;
+                    <div class="result-metric">
+                        <div class="metric-box">
+                            <div class="metric-label">Monthly Surplus</div>
+                            <div class="metric-value" style="color: #4caf50;">₹${monthlySurplus.toLocaleString('en-IN')}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Savings Rate</div>
+                            <div class="metric-value" style="color: #2196f3;">${savingsRate}%</div>
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 20px; font-weight: bold;">Obligation Breakdown:</p>
+                    <div class="chart-container">
+                        <div class="bar">
+                            <div class="bar-label">Expenses</div>
+                            <div class="bar-fill" style="width: ${(totalExpenses/totalObligations)*100}%;">₹${totalExpenses.toLocaleString('en-IN')}</div>
+                            <div class="bar-value">${expenseRatio}%</div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">EMIs</div>
+                            <div class="bar-fill" style="width: ${(totalEMI/totalObligations)*100}%; background: linear-gradient(90deg, #ff9800, #f57f17);">₹${totalEMI.toLocaleString('en-IN')}</div>
+                            <div class="bar-value">${debtRatio}%</div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">Insurance</div>
+                            <div class="bar-fill" style="width: ${(totalInsurancePremium/totalObligations)*100}%; background: linear-gradient(90deg, #e91e63, #c2185b);">₹${totalInsurancePremium.toLocaleString('en-IN')}</div>
+                            <div class="bar-value">${insuranceRatio}%</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 2. INSURANCE RECOMMENDATIONS
+            html += generateInsuranceSection(formData, totalIncome);
+
+            // 3. EMERGENCY FUND
+            const efTargetAmount = totalObligations * formData.efTarget;
+            const efShortfall = Math.max(0, efTargetAmount - formData.currentEF);
+            const efMonths = monthlySurplus > 0 ? Math.ceil(efShortfall / monthlySurplus) : 999;
+
+            html += `
+                <div class="result-card">
+                    <h3>🆘 Emergency Fund Status</h3>
+                    <div class="result-metric">
+                        <div class="metric-box">
+                            <div class="metric-label">Current EF</div>
+                            <div class="metric-value">₹${formData.currentEF.toLocaleString('en-IN')}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Target EF</div>
+                            <div class="metric-value">₹${efTargetAmount.toLocaleString('en-IN')}</div>
+                        </div>
+                    </div>
+                    <p><strong>Shortfall:</strong> ₹${efShortfall.toLocaleString('en-IN')}</p>
+                    <p><strong>Timeline:</strong> ~${efMonths} months (at current surplus)</p>
+                </div>
+            `;
+
+            // 4. DEBT PAYOFF TIMELINE
+            if (debts.length > 0) {
+                html += generateDebtPayoffSection(debts);
             }
 
-            // 4. INVESTMENT STRATEGY
-            html += `
-                <div class="recommendation">
-                    <h3>📈 Priority 4: Investment Strategy</h3>
-                    <p>Investment Tenure: <span class="value">${investTenure} years</span></p>
-`;
-            if (investTenure >= 8) {
-                html += `
-                    <p style="margin-top: 10px;">✅ <strong>Equity Mutual Funds recommended</strong></p>
-                    <p style="font-size: 13px; color: #666; margin-top: 10px;">You can stay invested for ${investTenure}+ years. A portfolio of Equity MFs (Nifty 50, Flexi Cap, Mid Cap, Small Cap) is recommended for wealth creation.</p>
-`;
-            } else {
-                html += `
-                    <p style="margin-top: 10px;">⏰ <strong>Tenure: ${investTenure} years (Less than 8 years)</strong></p>
-                    <p style="font-size: 13px; color: #666; margin-top: 10px;">With shorter tenure, consider a balanced approach. Details coming soon as we refine this tool.</p>
-`;
+            // 5. SURPLUS ALLOCATION WITH STEP-UP
+            html += generateSurplusAllocationSection(monthlySurplus, efShortfall, totalExpenses, formData.currentEF, efTargetAmount, debts, stepups);
+
+            // 6. INVESTMENT CORPUS PROJECTION
+            html += generateCorpusProjection(formData, monthlySurplus, stepups);
+
+            // 7. GOAL REACHABILITY TIMELINE
+            if (goals.length > 0) {
+                html += generateGoalTimeline(goals, monthlySurplus, formData.expectedReturn, formData.inflationRate);
             }
-            html += `
-                </div>
-            `;
 
-            // 4. MONTHLY SURPLUS & ACTION PLAN
-            html += `
-                <div class="recommendation">
-                    <h3>💰 Your Monthly Financial Capacity</h3>
-                    <p>Monthly Income: <span class="value">₹${income.toLocaleString('en-IN')}</span></p>
-                    <p>Monthly Obligations: <span class="value">₹${obligations.toLocaleString('en-IN')}</span></p>
-                    <p style="margin-top: 10px; font-size: 16px; background: #f0f4ff; padding: 10px; border-radius: 4px;">
-                        <strong>Available Surplus: ₹${surplus.toLocaleString('en-IN')}</strong>
-                    </p>
-                    <p style="margin-top: 10px; font-size: 13px; color: #666;">This is your monthly capacity to invest, save, or pay down debt.</p>
-                </div>
-            `;
+            // 8. SIP VS LUMP SUM
+            html += generateSIPAnalysis(formData, monthlySurplus);
 
-            // 5. PRIORITY SEQUENCE
-            html += `
-                <div class="priority-list">
-                    <h3>🎯 Your Financial Priority Sequence</h3>
-                    <div class="priority-item">
-                        <div class="priority-number">1</div>
-                        <div class="priority-text">Health & Term Insurance (if missing)</div>
-                    </div>
-                    <div class="priority-item">
-                        <div class="priority-number">2</div>
-                        <div class="priority-text">Build Emergency Fund to your target</div>
-                    </div>
-                    <div class="priority-item">
-                        <div class="priority-number">3</div>
-                        <div class="priority-text">Strategic Debt Payoff (high interest first)</div>
-                    </div>
-                    <div class="priority-item">
-                        <div class="priority-number">4</div>
-                        <div class="priority-text">Start/Increase SIP (Monthly Investing)</div>
-                    </div>
-                    <div class="priority-item">
-                        <div class="priority-number">5</div>
-                        <div class="priority-text">Work towards long-term goals</div>
-                    </div>
-                </div>
-            `;
+            // 9. LOW INTEREST DEBT STRATEGY
+            if (debts.length > 0) {
+                html += generateLowInterestStrategy(debts, formData.expectedReturn);
+            }
 
-            // Display results
+            // 10. RENT VS BUY ANALYSIS
+            if (formData.rentMonthly > 0 || formData.homePrice > 0) {
+                html += generateRentVsBuyAnalysis(formData);
+            }
+
             document.getElementById('resultsContent').innerHTML = html;
-            document.getElementById('resultsSection').classList.add('show');
-            
-            // Scroll to results
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Initialize with first debt
-        addDebt();
+        function generateInsuranceSection(formData, income) {
+            let html = `<div class="result-card"><h3>🛡️ Insurance Coverage</h3>`;
+            
+            if (formData.healthInsurance === 'no') {
+                const suggestedHealth = formData.familySize <= 2 ? 1000000 : (formData.familySize === 3 ? 1500000 : 2000000);
+                html += `<p style="color: #d32f2f;"><strong>⚠️ Health Insurance Missing!</strong></p>
+                        <p>Recommended: ₹${suggestedHealth.toLocaleString('en-IN')} ${formData.healthType === 'family-floater' ? 'Family Floater' : 'Individual'}</p>`;
+            } else {
+                html += `<p><strong>✓ Health Insurance:</strong> ₹${formData.healthCoverage.toLocaleString('en-IN')} (${formData.healthType})</p>
+                        <p>Monthly Premium: ₹${formData.healthPremium}</p>`;
+            }
+
+            if (formData.termInsurance === 'no') {
+                const suggestedTerm = income * 120;
+                html += `<p style="color: #d32f2f; margin-top: 10px;"><strong>⚠️ Term Insurance Missing!</strong></p>
+                        <p>Recommended: ₹${suggestedTerm.toLocaleString('en-IN')} (10x annual income for ${formData.dependents} dependents)</p>`;
+            } else {
+                html += `<p style="margin-top: 10px;"><strong>✓ Term Insurance:</strong> ₹${formData.termCoverage.toLocaleString('en-IN')}</p>
+                        <p>Monthly Premium: ₹${formData.termPremium}</p>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function generateDebtPayoffSection(debts) {
+            let html = `<div class="result-card"><h3>💳 Debt Payoff Timeline</h3><table>
+                       <tr><th>Debt</th><th>Amount</th><th>Rate</th><th>EMI</th><th>Months Left</th></tr>`;
+            
+            debts.forEach(debt => {
+                html += `<tr>
+                        <td>${debt.name}</td>
+                        <td>₹${debt.amount.toLocaleString('en-IN')}</td>
+                        <td>${debt.rate}%</td>
+                        <td>₹${debt.monthlyEMI.toLocaleString('en-IN')}</td>
+                        <td>${debt.tenure} months</td>
+                        </tr>`;
+            });
+
+            html += `</table></div>`;
+            return html;
+        }
+
+        function generateSurplusAllocationSection(surplus, efShortfall, expenses, currentEF, efTarget, debts, stepups) {
+            let html = `<div class="result-card"><h3>📊 Surplus Allocation Strategy</h3>`;
+            
+            let toEF = 0, toDebt = 0, toSIP = 0;
+
+            if (efShortfall > 0) {
+                toEF = Math.min(surplus * 0.5, efShortfall);
+                const remaining = surplus - toEF;
+                toDebt = remaining * 0.4;
+                toSIP = remaining * 0.2;
+                html += `<p>Priority: 50% EF → 40% Debt → 20% SIP</p>`;
+            } else if (debts.length > 0) {
+                toDebt = surplus * 0.4;
+                toSIP = surplus * 0.6;
+                html += `<p>Priority: 40% Debt → 60% SIP</p>`;
+            } else {
+                toSIP = surplus;
+                html += `<p>Priority: 100% SIP/Investments</p>`;
+            }
+
+            html += `<div class="result-metric">
+                    <div class="metric-box">
+                        <div class="metric-label">To EF</div>
+                        <div class="metric-value" style="color: #ff9800;">₹${toEF.toLocaleString('en-IN')}</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-label">To Debt Payoff</div>
+                        <div class="metric-value" style="color: #f44336;">₹${toDebt.toLocaleString('en-IN')}</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-label">To SIP</div>
+                        <div class="metric-value" style="color: #4caf50;">₹${toSIP.toLocaleString('en-IN')}</div>
+                    </div>
+                    </div>`;
+
+            if (stepups.length > 0) {
+                html += `<p style="margin-top: 20px;"><strong>SIP Step-Up Plan:</strong></p><table>
+                        <tr><th>Year</th><th>Monthly SIP</th></tr>`;
+                stepups.forEach(s => {
+                    html += `<tr><td>Year ${s.year}</td><td>₹${s.amount.toLocaleString('en-IN')}</td></tr>`;
+                });
+                html += `</table>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function generateCorpusProjection(formData, monthlySurplus, stepups) {
+            let html = `<div class="result-card"><h3>📈 Investment Corpus Projection</h3>`;
+
+            const rate = formData.expectedReturn / 12 / 100;
+            const tenure = formData.investmentTenure;
+
+            // Simple SIP projection
+            let totalCorpus = formData.investedAmount;
+            let sipAmount = monthlySurplus * 0.6; // Assuming 60% to SIP
+
+            // Calculate with step-up if provided
+            let projections = [];
+            for (let year = 1; year <= tenure; year++) {
+                const yearSip = sipAmount; // Simplified
+                const months = year * 12;
+                const futureValue = (yearSip * (Math.pow(1 + rate, months) - 1) / rate) + (formData.investedAmount * Math.pow(1 + rate, months));
+                projections.push({ year, amount: futureValue });
+            }
+
+            html += `<table><tr><th>Year</th><th>Projected Corpus</th></tr>`;
+            projections.forEach(p => {
+                html += `<tr><td>${p.year}</td><td>₹${Math.round(p.amount).toLocaleString('en-IN')}</td></tr>`;
+            });
+            html += `</table></div>`;
+
+            return html;
+        }
+
+        function generateGoalTimeline(goals, surplus, returnRate, inflationRate) {
+            let html = `<div class="result-card"><h3>🎯 Goal Reachability Timeline</h3><table>
+                       <tr><th>Goal</th><th>Amount</th><th>Target Year</th><th>Inflation Adjusted</th><th>Reachable?</th></tr>`;
+
+            goals.forEach(goal => {
+                const inflation = Math.pow(1 + inflationRate/100, (goal.year - new Date().getFullYear()));
+                const adjustedAmount = goal.amount * inflation;
+                const yearsLeft = goal.year - new Date().getFullYear();
+                const rate = returnRate / 12 / 100;
+                const months = yearsLeft * 12;
+                const projectedCorpus = surplus * (Math.pow(1 + rate, months) - 1) / rate;
+                const reachable = projectedCorpus >= adjustedAmount ? '✓ Yes' : '✗ No';
+
+                html += `<tr>
+                        <td>${goal.name}</td>
+                        <td>₹${goal.amount.toLocaleString('en-IN')}</td>
+                        <td>${goal.year}</td>
+                        <td>₹${Math.round(adjustedAmount).toLocaleString('en-IN')}</td>
+                        <td>${reachable}</td>
+                        </tr>`;
+            });
+
+            html += `</table></div>`;
+            return html;
+        }
+
+        function generateSIPAnalysis(formData, surplus) {
+            let html = `<div class="result-card"><h3>💵 SIP vs Lump Sum Comparison</h3>`;
+
+            const sipMonthly = surplus * 0.6;
+            const lumpSum = formData.investedAmount;
+            const rate = formData.expectedReturn / 12 / 100;
+            const tenure = formData.investmentTenure;
+            const months = tenure * 12;
+
+            const sipCorpus = sipMonthly * (Math.pow(1 + rate, months) - 1) / rate;
+            const lumpSumCorpus = lumpSum * Math.pow(1 + rate, months);
+
+            html += `<div class="result-metric">
+                    <div class="metric-box">
+                        <div class="metric-label">₹${sipMonthly.toLocaleString('en-IN')}/month SIP</div>
+                        <div class="metric-value">₹${Math.round(sipCorpus).toLocaleString('en-IN')}</div>
+                        <div class="metric-subtext">Over ${tenure} years</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-label">₹${lumpSum.toLocaleString('en-IN')} Lump Sum</div>
+                        <div class="metric-value">₹${Math.round(lumpSumCorpus).toLocaleString('en-IN')}</div>
+                        <div class="metric-subtext">Over ${tenure} years</div>
+                    </div>
+                    </div>`;
+
+            html += `</div>`;
+            return html;
+        }
+
+        function generateLowInterestStrategy(debts, expectedReturn) {
+            let html = `<div class="result-card"><h3>📌 Low Interest Debt Strategy</h3>`;
+
+            debts.forEach(debt => {
+                if (debt.rate < 9) {
+                    html += `<p><strong>${debt.name}:</strong> ${debt.rate}% interest rate is low.</p>
+                            <p>💡 Recommendation: Maintain minimum payments, invest surplus at ${expectedReturn}% expected returns instead.</p>`;
+                }
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        function generateRentVsBuyAnalysis(formData) {
+            let html = `<div class="result-card"><h3>🏠 Rent vs Buy Analysis</h3>`;
+
+            if (formData.rentMonthly > 0) {
+                const rent30Years = formData.rentMonthly * 12 * 30;
+                html += `<p><strong>Renting Cost:</strong> ₹${rent30Years.toLocaleString('en-IN')} over 30 years</p>`;
+            }
+
+            if (formData.homePrice > 0) {
+                const downPayment = formData.homePrice * 0.2;
+                const loanAmount = formData.homePrice * 0.8;
+                const monthlyEMI = loanAmount / 240; // Simplified
+                const totalPaid = monthlyEMI * 240 + downPayment;
+                html += `<p><strong>Buying Cost:</strong> ₹${totalPaid.toLocaleString('en-IN')} over 20 years</p>
+                        <p>Down Payment: ₹${downPayment.toLocaleString('en-IN')}</p>
+                        <p>Monthly EMI: ₹${monthlyEMI.toLocaleString('en-IN')}</p>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function resetForm() {
+            currentPage = 1;
+            document.getElementById('navigationButtons').style.display = 'flex';
+            document.getElementById('resultsContainer').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+            updateNavigation();
+            updateProgressBar();
+            document.querySelector('form').reset();
+        }
     </script>
 </body>
 </html>
