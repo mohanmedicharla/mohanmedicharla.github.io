@@ -772,21 +772,23 @@
 
         function addDebt() {
             debtCount++;
-            const debtHTML = `
-                <div class="row-item" id="debt-${debtCount}">
-                    <div class="row-item-content">
-                        <input type="text" class="debtName" placeholder="Debt name (e.g., Personal Loan)" style="margin-bottom: 8px;">
-                        <div class="form-row" style="margin: 0;">
-                            <input type="number" class="debtAmount" placeholder="Amount (₹)" style="width: 100%;">
-                            <input type="number" class="debtRate" placeholder="Interest %" step="0.1" style="width: 100%;">
-                            <input type="number" class="debtEMI" placeholder="Monthly EMI (₹)" style="width: 100%;">
-                            <input type="number" class="debtTenure" placeholder="Tenure (months)" style="width: 100%;">
-                        </div>
+            const container = document.getElementById('debtsContainer');
+            const debtDiv = document.createElement('div');
+            debtDiv.className = 'row-item';
+            debtDiv.id = `debt-${debtCount}`;
+            debtDiv.innerHTML = `
+                <div class="row-item-content">
+                    <input type="text" class="debtName" placeholder="Debt name (e.g., Personal Loan)" style="margin-bottom: 8px;">
+                    <div class="form-row" style="margin: 0;">
+                        <input type="number" class="debtAmount" placeholder="Amount (₹)" style="width: 100%;">
+                        <input type="number" class="debtRate" placeholder="Interest %" step="0.1" style="width: 100%;">
+                        <input type="number" class="debtEMI" placeholder="Monthly EMI (₹)" style="width: 100%;">
+                        <input type="number" class="debtTenure" placeholder="Tenure (months)" style="width: 100%;">
                     </div>
-                    <button class="row-item-delete" onclick="removeDebt(${debtCount})">Delete</button>
                 </div>
+                <button type="button" class="row-item-delete" onclick="removeDebt(${debtCount})">Delete</button>
             `;
-            document.getElementById('debtsContainer').innerHTML += debtHTML;
+            container.appendChild(debtDiv);
         }
 
         function removeDebt(id) {
@@ -796,19 +798,21 @@
 
         function addGoal() {
             goalCount++;
-            const goalHTML = `
-                <div class="row-item" id="goal-${goalCount}">
-                    <div class="row-item-content">
-                        <input type="text" class="goalName" placeholder="Goal name (e.g., Land Purchase)" style="margin-bottom: 8px;">
-                        <div class="form-row" style="margin: 0;">
-                            <input type="number" class="goalAmount" placeholder="Target Amount (₹)" style="width: 100%;">
-                            <input type="number" class="goalYear" placeholder="Target Year (e.g., 2035)" style="width: 100%;">
-                        </div>
+            const container = document.getElementById('goalsContainer');
+            const goalDiv = document.createElement('div');
+            goalDiv.className = 'row-item';
+            goalDiv.id = `goal-${goalCount}`;
+            goalDiv.innerHTML = `
+                <div class="row-item-content">
+                    <input type="text" class="goalName" placeholder="Goal name (e.g., Land Purchase)" style="margin-bottom: 8px;">
+                    <div class="form-row" style="margin: 0;">
+                        <input type="number" class="goalAmount" placeholder="Target Amount (₹)" style="width: 100%;">
+                        <input type="number" class="goalYear" placeholder="Target Year (e.g., 2035)" style="width: 100%;">
                     </div>
-                    <button class="row-item-delete" onclick="removeGoal(${goalCount})">Delete</button>
                 </div>
+                <button type="button" class="row-item-delete" onclick="removeGoal(${goalCount})">Delete</button>
             `;
-            document.getElementById('goalsContainer').innerHTML += goalHTML;
+            container.appendChild(goalDiv);
         }
 
         function removeGoal(id) {
@@ -818,18 +822,20 @@
 
         function addStepup() {
             stepupCount++;
-            const stepupHTML = `
-                <div class="row-item" id="stepup-${stepupCount}">
-                    <div class="row-item-content">
-                        <div class="form-row" style="margin: 0;">
-                            <input type="number" class="stepupYear" placeholder="Year (e.g., 1)" style="width: 100%;">
-                            <input type="number" class="stepupAmount" placeholder="SIP Amount (₹) (e.g., 25000)" style="width: 100%;">
-                        </div>
+            const container = document.getElementById('stepupContainer');
+            const stepupDiv = document.createElement('div');
+            stepupDiv.className = 'row-item';
+            stepupDiv.id = `stepup-${stepupCount}`;
+            stepupDiv.innerHTML = `
+                <div class="row-item-content">
+                    <div class="form-row" style="margin: 0;">
+                        <input type="number" class="stepupYear" placeholder="Year (e.g., 1)" style="width: 100%;">
+                        <input type="number" class="stepupAmount" placeholder="SIP Amount (₹) (e.g., 25000)" style="width: 100%;">
                     </div>
-                    <button class="row-item-delete" onclick="removeStepup(${stepupCount})">Delete</button>
                 </div>
+                <button type="button" class="row-item-delete" onclick="removeStepup(${stepupCount})">Delete</button>
             `;
-            document.getElementById('stepupContainer').innerHTML += stepupHTML;
+            container.appendChild(stepupDiv);
         }
 
         function removeStepup(id) {
@@ -924,14 +930,95 @@
                                (parseFloat(document.getElementById('spouseIncome').value) || 0) +
                                (parseFloat(document.getElementById('otherIncome').value) || 0);
 
-            const html = `
+            const totalExpenses = (parseFloat(document.getElementById('rent').value) || 0) +
+                                 (parseFloat(document.getElementById('groceries').value) || 0) +
+                                 (parseFloat(document.getElementById('utilities').value) || 0) +
+                                 (parseFloat(document.getElementById('transportation').value) || 0) +
+                                 (parseFloat(document.getElementById('childEducation').value) || 0) +
+                                 (parseFloat(document.getElementById('medical').value) || 0) +
+                                 (parseFloat(document.getElementById('subscriptions').value) || 0) +
+                                 (parseFloat(document.getElementById('shopping').value) || 0) +
+                                 (parseFloat(document.getElementById('otherExpenses').value) || 0);
+
+            const totalInsurance = (parseFloat(document.getElementById('healthPremium').value) || 0) +
+                                  (parseFloat(document.getElementById('termPremium').value) || 0);
+
+            const totalDebts = Array.from(document.querySelectorAll('#debtsContainer .row-item')).reduce((sum, item) => {
+                return sum + (parseFloat(item.querySelector('.debtEMI').value) || 0);
+            }, 0);
+
+            const totalObligations = totalExpenses + totalInsurance + totalDebts;
+            const surplus = totalIncome - totalObligations;
+
+            // Get debts list
+            let debtsList = '';
+            document.querySelectorAll('#debtsContainer .row-item').forEach((item, idx) => {
+                const name = item.querySelector('.debtName').value || 'Debt ' + (idx + 1);
+                const emi = item.querySelector('.debtEMI').value || '0';
+                debtsList += `<p style="margin: 5px 0;">  • ${name}: ₹${parseFloat(emi).toLocaleString('en-IN')}/month EMI</p>`;
+            });
+
+            // Get goals list
+            let goalsList = '';
+            document.querySelectorAll('#goalsContainer .row-item').forEach((item, idx) => {
+                const name = item.querySelector('.goalName').value || 'Goal ' + (idx + 1);
+                const amount = item.querySelector('.goalAmount').value || '0';
+                const year = item.querySelector('.goalYear').value || '-';
+                goalsList += `<p style="margin: 5px 0;">  • ${name}: ₹${parseFloat(amount).toLocaleString('en-IN')} by ${year}</p>`;
+            });
+
+            // Get stepups list
+            let stepupsList = '';
+            document.querySelectorAll('#stepupContainer .row-item').forEach((item, idx) => {
+                const year = item.querySelector('.stepupYear').value || '-';
+                const amount = item.querySelector('.stepupAmount').value || '0';
+                stepupsList += `<p style="margin: 5px 0;">  • Year ${year}: ₹${parseFloat(amount).toLocaleString('en-IN')}/month</p>`;
+            });
+
+            let html = `
                 <div class="result-card">
-                    <h3>Summary of Your Information</h3>
-                    <p><strong>Monthly Income:</strong> ₹${totalIncome.toLocaleString('en-IN')}</p>
-                    <p><strong>Age:</strong> ${document.getElementById('age').value} years</p>
-                    <p><strong>Family Size:</strong> ${document.getElementById('familySize').value}</p>
-                    <p><strong>Investment Tenure:</strong> ${document.getElementById('investmentTenure').value} years</p>
-                    <p style="margin-top: 15px; padding: 12px; background: #e3f2fd; border-radius: 6px;">
+                    <h3>📋 Complete Summary of Your Information</h3>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">📊 Personal Details</h4>
+                    <p>Age: <strong>${document.getElementById('age').value}</strong> years | Family Size: <strong>${document.getElementById('familySize').value}</strong> | Dependents: <strong>${document.getElementById('dependents').value}</strong> | Employment: <strong>${document.getElementById('employmentStatus').value}</strong></p>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">💰 Monthly Income</h4>
+                    <p>  • Base Salary: ₹${(parseFloat(document.getElementById('baseSalary').value) || 0).toLocaleString('en-IN')}</p>
+                    <p>  • Bonus/Variable: ₹${(parseFloat(document.getElementById('avgBonus').value) || 0).toLocaleString('en-IN')}</p>
+                    <p>  • Side Income: ₹${(parseFloat(document.getElementById('sideIncome').value) || 0).toLocaleString('en-IN')}</p>
+                    <p>  • Spouse Income: ₹${(parseFloat(document.getElementById('spouseIncome').value) || 0).toLocaleString('en-IN')}</p>
+                    <p>  • Other Income: ₹${(parseFloat(document.getElementById('otherIncome').value) || 0).toLocaleString('en-IN')}</p>
+                    <p style="margin-top: 10px; font-weight: bold; color: #4caf50;">📌 Total Monthly Income: ₹${totalIncome.toLocaleString('en-IN')}</p>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">💸 Monthly Obligations</h4>
+                    <p>  • Total Expenses: ₹${totalExpenses.toLocaleString('en-IN')}</p>
+                    <p>  • Insurance Premiums: ₹${totalInsurance.toLocaleString('en-IN')}</p>
+                    <p>  • Loan EMIs: ₹${totalDebts.toLocaleString('en-IN')}</p>
+                    <p style="margin-top: 10px; font-weight: bold; color: #f44336;">📌 Total Obligations: ₹${totalObligations.toLocaleString('en-IN')}</p>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #4caf50; font-size: 16px;">💹 Monthly Surplus: ₹${surplus.toLocaleString('en-IN')}</h4>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">🛡️ Insurance Coverage</h4>
+                    <p>  • Health Insurance: ${document.getElementById('healthInsurance').value === 'yes' ? '✓ ₹' + (parseFloat(document.getElementById('healthCoverage').value) || 0).toLocaleString('en-IN') : '✗ Missing'}</p>
+                    <p>  • Term Insurance: ${document.getElementById('termInsurance').value === 'yes' ? '✓ ₹' + (parseFloat(document.getElementById('termCoverage').value) || 0).toLocaleString('en-IN') : '✗ Missing'}</p>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">🆘 Emergency Fund</h4>
+                    <p>  • Current: ₹${(parseFloat(document.getElementById('currentEF').value) || 0).toLocaleString('en-IN')}</p>
+                    <p>  • Target: ${document.getElementById('efTarget').value} months of obligations</p>
+                    
+                    ${debtsList ? `<h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">💳 Existing Debts</h4>${debtsList}` : ''}
+                    
+                    ${goalsList ? `<h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">🎯 Financial Goals</h4>${goalsList}` : ''}
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">📈 Current Investments</h4>
+                    <p>  • Current SIP: ₹${(parseFloat(document.getElementById('currentSIP').value) || 0).toLocaleString('en-IN')}/month</p>
+                    <p>  • Total Invested: ₹${(parseFloat(document.getElementById('investedAmount').value) || 0).toLocaleString('en-IN')}</p>
+                    <p>  • Investment Tenure: ${document.getElementById('investmentTenure').value} years</p>
+                    <p>  • Expected Return: ${document.getElementById('expectedReturn').value}% p.a.</p>
+                    
+                    ${stepupsList ? `<h4 style="margin-top: 20px; margin-bottom: 10px; color: #667eea;">📊 SIP Step-Up Plan</h4>${stepupsList}` : ''}
+                    
+                    <p style="margin-top: 20px; padding: 12px; background: #e3f2fd; border-radius: 6px; border-left: 4px solid #2196f3;">
                         ✓ All information reviewed. Click "Generate Plan" to see your personalized wealth creation strategy.
                     </p>
                 </div>
@@ -1036,7 +1123,7 @@
             const totalIncome = formData.baseSalary + formData.avgBonus + formData.sideIncome + formData.spouseIncome + formData.otherIncome;
             const totalExpenses = formData.rent + formData.groceries + formData.utilities + formData.transportation + formData.childEducation + formData.medical + formData.subscriptions + formData.shopping + formData.otherExpenses;
             const totalEMI = debts.reduce((sum, d) => sum + (d.monthlyEMI || 0), 0);
-            const totalInsurancePremium = formData.healthPremium + formPremium;
+            const totalInsurancePremium = formData.healthPremium + formData.termPremium;
             const totalObligations = totalExpenses + totalEMI + totalInsurancePremium;
             const monthlySurplus = totalIncome - totalObligations;
             const savingsRate = ((monthlySurplus / totalIncome) * 100).toFixed(1);
